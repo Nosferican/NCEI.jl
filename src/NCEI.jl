@@ -1,3 +1,5 @@
+__precompile__(true)
+
 module NCEI
 
 using Base.Dates: Date, Day, TimeType, today, Year
