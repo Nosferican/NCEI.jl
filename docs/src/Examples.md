@@ -1,13 +1,13 @@
 # Examples
 
+## Climate Data Online (CDO)
+
 - Set Up
 
 ```@example Tutorial
 using NCEI
-cdo_token = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+cdo_token = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
 ```
-
-## Climate Data Online (CDO)
 
 - Datasets
 
@@ -77,10 +77,10 @@ cdo_token = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 # cdo_locations(cdo_token, "FIPS:37")
 
 # Fetch available locations for the GHCND (Daily Summaries) dataset
-cdo_locations(cdo_token, datasets = "GHCND")
+# cdo_locations(cdo_token, datasets = "GHCND")
 
 # Fetch all U.S. States
-cdo_locations(cdo_token, locationcategories = "ST")
+# cdo_locations(cdo_token, locationcategories = "ST")
 ```
 
 - Stations
@@ -92,10 +92,10 @@ cdo_locations(cdo_token, locationcategories = "ST")
 # Fetch all information about the Abbeville AL station specifically
 # cdo_stations(cdo_token, "COOP:010008")
 
-Fetch all the stations in North Carolina, US (FIPS:37)
+# Fetch all the stations in North Carolina, US (FIPS:37)
 # cdo_stations(cdo_token, locations = "FIPS:37")
 
-Fetch a list of stations that support a given set of data types
+# Fetch a list of stations that support a given set of data types
 # cdo_stations(cdo_token, datatypes = ["EMNT", "EMXT", "HTMN"])
 ```
 

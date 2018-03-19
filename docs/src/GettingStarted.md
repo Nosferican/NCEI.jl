@@ -14,6 +14,8 @@ using NCEI
 
 ## Documentation
 
+### Climate Data Online (CDO)
+
 ```@docs
 cdo_datasets
 cdo_datacategories
