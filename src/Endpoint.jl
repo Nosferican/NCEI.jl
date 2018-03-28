@@ -7,14 +7,10 @@ function period(startdate::TimeType, enddate::TimeType, dataset::AbstractString)
     return "&startdate=" .* starts .* "&enddate=" .* push!(starts[2:end], string(enddate))
 end
 
-for_assignment(::Type{Union{Missing, String}}, value::Missing) = missing
-for_assignment(::Type{Union{Missing, Float64}}, value::Number) = missing
-for_assignment(::Type{Union{Missing, Date}}, value::Missing) = missing
-for_assignment(::Type{Union{Missing, DateTime}}, value::Missing) = missing
-for_assignment(::Type{Union{Missing, String}}, value::AbstractString) = convert(String, value)
-for_assignment(::Type{Union{Missing, Float64}}, value::Number) = convert(Float64, value)
-for_assignment(::Type{Union{Missing, Date}}, value::AbstractString) = Date(convert(String, value))
-for_assignment(::Type{Union{Missing, DateTime}}, value::AbstractString) = DateTime(convert(String, value))
+for_assignment(::Type{Union{Missing, T}}, value::Missing) where T <: Union{AbstractString, Number, TimeType} = missing
+for_assignment(::Type{Union{Missing, T}}, value::AbstractString) where T <: AbstractString = convert(T, value)
+for_assignment(::Type{Union{Missing, T}}, value::Number) where T <: Number = convert(T, value)
+for_assignment(::Type{Union{Missing, T}}, value::AbstractString) where T <: TimeType = T(convert(String, value))
 
 abstract type Endpoint end
 struct CDO_Data <: Endpoint
