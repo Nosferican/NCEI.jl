@@ -19,7 +19,7 @@ export
     cdo_datasets,
     cdo_datacategories,
     cdo_datatypes,
-    cdo_locationscategories,
+    cdo_locationcategories,
     cdo_locations,
     cdo_stations,
     cdo_data

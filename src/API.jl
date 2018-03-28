@@ -118,26 +118,26 @@ end
 
 # Location Categories
 """
-    cdo_locationscategories(CDO_token::AbstractString, locationcategory::AbstractString)
-    cdo_locationscategories(CDO_token::AbstractString;
-                  datasets::Union{AbstractString, AbstractVector{<:AbstractString}} = "",
-                  startdate::Date = Date("0001-01-01"),
-                  enddate::Date = today())
+    cdo_locationcategories(CDO_token::AbstractString, locationcategory::AbstractString)
+    cdo_locationcategories(CDO_token::AbstractString;
+                           datasets::Union{AbstractString, AbstractVector{<:AbstractString}} = "",
+                           startdate::Date = Date("0001-01-01"),
+                           enddate::Date = today())
 
 For obtaining a CDO_token: [Request Web Services Token](https://www.ncdc.noaa.gov/cdo-web/token)
 
 For additional information visit the [NCDC's Climate Data Online (CDO) Web Services v2 Documentation](https://www.ncdc.noaa.gov/cdo-web/webservices/v2#locationCategories)
 """
-function cdo_locationscategories(CDO_token::AbstractString, locationcategory::AbstractString)
+function cdo_locationcategories(CDO_token::AbstractString, locationcategory::AbstractString)
     textwidth(CDO_token) == 32 || throw(CDO_NonValidToken)
     output = parse(CDO_LocationCategory(CDO_token, locationcategory))
     isa(output, Exception) && throw(output)
     return output
 end
-function cdo_locationscategories(CDO_token::AbstractString;
-                                 datasets::Union{AbstractString, AbstractVector{<:AbstractString}} = "",
-                                 startdate::Date = Date("0001-01-01"),
-                                 enddate::Date = today())
+function cdo_locationcategories(CDO_token::AbstractString;
+                                datasets::Union{AbstractString, AbstractVector{<:AbstractString}} = "",
+                                startdate::Date = Date("0001-01-01"),
+                                enddate::Date = today())
     textwidth(CDO_token) == 32 || throw(CDO_NonValidToken)
     return parse(CDO_LocationCategories(CDO_token, datasets, startdate, enddate))
 end

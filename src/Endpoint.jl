@@ -28,6 +28,7 @@ struct CDO_Data <: Endpoint
               id_or_chain(datatypes, "datatype") *
               id_or_chain(locations, "location") *
               "units=" * ifelse(metric, "metric", "standard") .*
+              id_or_chain(stations, "station") .*
               period(startdate, enddate, dataset) .*
               "&limit=1000&offset=1"
         return new(CDO_token, url)
@@ -124,7 +125,7 @@ struct CDO_LocationCategories <: Endpoint
                    id_or_chain(datasets, "dataset") *
                    "startdate=" * string(startdate) *
                    "&enddate=" * string(enddate) *
-                   "limit=1000&offset=1")
+                   "&limit=1000&offset=1")
     end
 end
 struct CDO_Location <: Endpoint
@@ -254,7 +255,7 @@ exception(obj::Endpoint) = DataFrame(types(obj), names(obj), 0)
 exception(obj::CDO_DataCategory) = ArgumentError(getfield(obj, :url)[57:end] * " is not a valid data category. For a complete list of valid data categories run `cdo_datacategories(CDO_token::AbstractString)`.")
 exception(obj::CDO_Dataset) = ArgumentError(getfield(obj, :url)[51:end] * " is not a valid dataset. For a complete list of valid datasets run `cdo_datasets(CDO_token::AbstractString)`.")
 exception(obj::CDO_DataType) = ArgumentError(getfield(obj, :url)[52:end] * " is not a valid data type. For a complete list of valid data types run `cdo_datatypes(CDO_token::AbstractString)`.")
-exception(obj::CDO_LocationCategory) = ArgumentError(getfield(obj, :url)[61:end] * " is not a valid location category. For a complete list of valid location categories run `cdo_locationscategories(CDO_token::AbstractString)`.")
+exception(obj::CDO_LocationCategory) = ArgumentError(getfield(obj, :url)[61:end] * " is not a valid location category. For a complete list of valid location categories run `cdo_locationcategories(CDO_token::AbstractString)`.")
 exception(obj::CDO_Location) = ArgumentError(getfield(obj, :url)[52:end] * " is not a valid location. For a complete list of valid locations run `cdo_locations(CDO_token::AbstractString)`.")
 exception(obj::CDO_Station) = ArgumentError(getfield(obj, :url)[51:end] * " is not a valid weather station. For a complete list of valid stations run `cdo_stations(CDO_token::AbstractString)`.")
 
