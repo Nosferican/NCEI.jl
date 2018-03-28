@@ -185,7 +185,7 @@ const Types = [[DateTime, String, String, String, Float64],
                [String, Date, Date, String, Float64, String],
                [Date, Date, Float64, String],
                [Date, Date, String, Float64, String],
-               [Float64, Date, Date, Float64, String, Float64, String, String, Float64]
+               [Union{Float64, Missing}, Date, Date, Float64, String, Float64, String, Union{String, Missing}, Float64]
                ]
 
 # Helpers
@@ -262,7 +262,8 @@ If an empty JSON indicates an ArgumentError this one is throw.
 function skeleton(endpoint::CDO_Single, jsontext::AbstractString)
     jsontext == "{}" && return exception(endpoint)
     output = DataFrame()
-    for (col, T, val) ∈ zip(names(endpoint), types(endpoint), values(value(jsontext)))
+    vals = value(jsontext)
+    for (col, T, val) ∈ zip(names(endpoint), types(endpoint))
         output[col] = T(val)
     end
     return output
@@ -291,22 +292,21 @@ function parse(obj::CDO_Meta)
     urls = url[1:end - 1] .* string.(1:1000:Count)[2:end]
     idx = 1
     output = DataFrame(Ts, Ns, Count)
-    cols = 1:size(output, 2)
     for elem ∈ json["results"]
-        for (col, T, val) ∈ zip(cols, Ts, values(elem))
-            output[idx, col] = T(val)
+        for (col, T) ∈ zip(Ns, Ts)
+            output[idx, col] = T(get(elem, col, missing))
+            idx += 1
         end
-        idx += 1
     end
     for suburl ∈ urls
         response = request("GET", suburl, header)
         jsontext = String(getfield(response, :body))
         json = value(jsontext)["results"]
         for elem ∈ json
-            for (col, T, val) ∈ zip(cols, Ts, values(elem))
-                output[idx, col] = T(val)
+            for (col, T) ∈ zip(Ns, Ts)
+                output[idx, col] = T(get(elem, col, missing))
+                idx += 1
             end
-            idx += 1
         end
     end
     return output
@@ -327,20 +327,20 @@ function parse(obj::CDO_Data)
         tmp = DataFrame(Ts, Ns, Count)
         idx = 1
         for elem ∈ json["results"]
-            for (col, T, val) ∈ zip(cols, Ts, values(elem))
-                tmp[idx, col] = T(val)
+            for (col, T) ∈ zip(Ns, Ts)
+                output[idx, col] = T(get(elem, col, missing))
+                idx += 1
             end
-            idx += 1
         end
         for suburl ∈ urls
             response = request("GET", suburl, header)
             jsontext = String(getfield(response, :body))
             json = value(jsontext)["results"]
             for elem ∈ json
-                for (col, T, val) ∈ zip(cols, Ts, values(elem))
-                    tmp[idx, col] = T(val)
+                for (col, T) ∈ zip(Ns, Ts)
+                    output[idx, col] = T(get(elem, col, missing))
+                    idx += 1
                 end
-                idx += 1
             end
         end
         append!(output, tmp)
