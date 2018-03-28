@@ -1,7 +1,9 @@
 abstract type Endpoint end
 struct CDO_Data <: Endpoint
+    token::String
     url::Vector{String}
-    function CDO_Data(dataset::AbstractString,
+    function CDO_Data(CDO_token::AbstractString,
+                      dataset::AbstractString,
                       startdate::TimeType,
                       enddate::TimeType,
                       datatypes::Union{AbstractString, AbstractVector{<:AbstractString}},
@@ -14,21 +16,25 @@ struct CDO_Data <: Endpoint
               "units=" * ifelse(metric, "metric", "standard") .*
               period(startdate, enddate, dataset) .*
               "&limit=1000&offset=1"
-        return new{typeof(url)}(url)
-        end
+        return new(CDO_token, url)
+    end
 end
 struct CDO_DataCategory <: Endpoint
+    token::String
     url::String
-    CDO_DataCategory(datacategory::AbstractString) = new("https://www.ncdc.noaa.gov/cdo-web/api/v2/datacategories/" * datacategory)
+    CDO_DataCategory(CDO_token::AbstractString, datacategory::AbstractString) = new(CDO_token, "https://www.ncdc.noaa.gov/cdo-web/api/v2/datacategories/" * datacategory)
 end
 struct CDO_DataCategories <: Endpoint
+    token::String
     url::String
-    function CDO_DataCategories(datasets::Union{AbstractString, AbstractVector{<:AbstractString}},
+    function CDO_DataCategories(CDO_token::AbstractString,
+                                datasets::Union{AbstractString, AbstractVector{<:AbstractString}},
                                 locations::Union{AbstractString, AbstractVector{<:AbstractString}},
                                 stations::Union{AbstractString, AbstractVector{<:AbstractString}},
                                 startdate::Date,
                                 enddate::Date)
-        return new("https://www.ncdc.noaa.gov/cdo-web/api/v2/datacategories?" *
+        return new(CDO_token,
+                   "https://www.ncdc.noaa.gov/cdo-web/api/v2/datacategories?" *
                    id_or_chain(datasets, "dataset") *
                    id_or_chain(locations, "location") *
                    id_or_chain(stations, "station") *
@@ -38,17 +44,21 @@ struct CDO_DataCategories <: Endpoint
     end
 end
 struct CDO_Dataset <: Endpoint
+    token::String
     url::String
-    CDO_Dataset(dataset::AbstractString) = new("https://www.ncdc.noaa.gov/cdo-web/api/v2/datasets/" * dataset)
+    CDO_Dataset(CDO_token::AbstractString, dataset::AbstractString) = new(CDO_token, "https://www.ncdc.noaa.gov/cdo-web/api/v2/datasets/" * dataset)
 end
 struct CDO_Datasets <: Endpoint
+    token::String
     url::String
-    function CDO_Datasets(datatypes::Union{AbstractString, AbstractVector{<:AbstractString}},
+    function CDO_Datasets(CDO_token::AbstractString,
+                          datatypes::Union{AbstractString, AbstractVector{<:AbstractString}},
                           locations::Union{AbstractString, AbstractVector{<:AbstractString}},
                           stations::Union{AbstractString, AbstractVector{<:AbstractString}},
                           startdate::Date,
                           enddate::Date)
-        return new("https://www.ncdc.noaa.gov/cdo-web/api/v2/datasets?" *
+        return new(CDO_token,
+                   "https://www.ncdc.noaa.gov/cdo-web/api/v2/datasets?" *
                    id_or_chain(datatypes, "datatype") *
                    id_or_chain(locations, "location") *
                    id_or_chain(stations, "station") *
@@ -58,18 +68,22 @@ struct CDO_Datasets <: Endpoint
     end
 end
 struct CDO_DataType <: Endpoint
+    token::String
     url::String
-    CDO_DataType(datatype::AbstractString) = new("https://www.ncdc.noaa.gov/cdo-web/api/v2/datatypes/" * datatype)
+    CDO_DataType(CDO_token::AbstractString, datatype::AbstractString) = new(CDO_token, "https://www.ncdc.noaa.gov/cdo-web/api/v2/datatypes/" * datatype)
 end
 struct CDO_DataTypes <: Endpoint
+    token::String
     url::String
-    function CDO_DataTypes(datasets::Union{AbstractString, AbstractVector{<:AbstractString}},
+    function CDO_DataTypes(CDO_token::AbstractString,
+                           datasets::Union{AbstractString, AbstractVector{<:AbstractString}},
                            datacategories::Union{AbstractString, AbstractVector{<:AbstractString}},
                            locations::Union{AbstractString, AbstractVector{<:AbstractString}},
                            stations::Union{AbstractString, AbstractVector{<:AbstractString}},
                            startdate::Date,
                            enddate::Date)
-        return new("https://www.ncdc.noaa.gov/cdo-web/api/v2/datatypes?" *
+        return new(CDO_token,
+                   "https://www.ncdc.noaa.gov/cdo-web/api/v2/datatypes?" *
                    id_or_chain(datasets, "dataset") *
                    id_or_chain(datacategories, "datacategory") *
                    id_or_chain(locations, "location") *
@@ -80,15 +94,19 @@ struct CDO_DataTypes <: Endpoint
         end
 end
 struct CDO_LocationCategory <: Endpoint
+    token::String
     url::String
-    CDO_LocationCategory(locationcategory::AbstractString) = new("https://www.ncdc.noaa.gov/cdo-web/api/v2/locationcategories/" * locationcategory)
+    CDO_LocationCategory(token::AbstractString, locationcategory::AbstractString) = new(token, "https://www.ncdc.noaa.gov/cdo-web/api/v2/locationcategories/" * locationcategory)
 end
 struct CDO_LocationCategories <: Endpoint
+    token::String
     url::String
-    function CDO_LocationCategories(datasets::Union{AbstractString, AbstractVector{<:AbstractString}},
+    function CDO_LocationCategories(CDO_token::AbstractString,
+                                    datasets::Union{AbstractString, AbstractVector{<:AbstractString}},
                                     startdate::Date,
                                     enddate::Date)
-        return new("https://www.ncdc.noaa.gov/cdo-web/api/v2/locationcategories?" *
+        return new(CDO_token,
+                   "https://www.ncdc.noaa.gov/cdo-web/api/v2/locationcategories?" *
                    id_or_chain(datasets, "dataset") *
                    "startdate=" * string(startdate) *
                    "&enddate=" * string(enddate) *
@@ -96,17 +114,21 @@ struct CDO_LocationCategories <: Endpoint
     end
 end
 struct CDO_Location <: Endpoint
+    token::String
     url::String
-    CDO_Location(location::AbstractString) = new("https://www.ncdc.noaa.gov/cdo-web/api/v2/locations/" * location)
+    CDO_Location(CDO_token::AbstractString, location::AbstractString) = new(CDO_token, "https://www.ncdc.noaa.gov/cdo-web/api/v2/locations/" * location)
 end
 struct CDO_Locations <: Endpoint
+    token::String
     url::String
-    function CDO_Locations(datasets::Union{AbstractString, AbstractVector{<:AbstractString}},
+    function CDO_Locations(CDO_token::AbstractString,
+                           datasets::Union{AbstractString, AbstractVector{<:AbstractString}},
                            locationcategories::Union{AbstractString, AbstractVector{<:AbstractString}},
                            datacategories::Union{AbstractString, AbstractVector{<:AbstractString}},
                            startdate::Date,
                            enddate::Date)
-        return new("https://www.ncdc.noaa.gov/cdo-web/api/v2/locations?" *
+        return new(CDO_token,
+                   "https://www.ncdc.noaa.gov/cdo-web/api/v2/locations?" *
                    id_or_chain(datasets, "dataset") *
                    id_or_chain(locationcategories, "locationcategory") *
                    id_or_chain(datacategories, "datacategory") *
@@ -116,19 +138,23 @@ struct CDO_Locations <: Endpoint
         end
 end
 struct CDO_Station <: Endpoint
+    token::String
     url::String
-    CDO_Station(station::AbstractString) = new("https://www.ncdc.noaa.gov/cdo-web/api/v2/stations/" * station)
+    CDO_Station(CDO_token::AbstractString, station::AbstractString) = new(CDO_token, "https://www.ncdc.noaa.gov/cdo-web/api/v2/stations/" * station)
 end
 struct CDO_Stations <: Endpoint
+    token::String
     url::String
-    function CDO_Stations(datasets::Union{AbstractString, AbstractVector{<:AbstractString}},
+    function CDO_Stations(CDO_token::AbstractString,
+                          datasets::Union{AbstractString, AbstractVector{<:AbstractString}},
                           locations::Union{AbstractString, AbstractVector{<:AbstractString}},
                           datacategories::Union{AbstractString, AbstractVector{<:AbstractString}},
                           datatypes::Union{AbstractString, AbstractVector{<:AbstractString}},
                           extent::Union{AbstractVector{<:AbstractFloat}},
                           startdate::Date,
                           enddate::Date)
-        return new("https://www.ncdc.noaa.gov/cdo-web/api/v2/stations?" *
+        return new(CDO_token,
+                   "https://www.ncdc.noaa.gov/cdo-web/api/v2/stations?" *
                    id_or_chain(datasets, "dataset") *
                    id_or_chain(locations, "location") *
                    id_or_chain(datacategories, "datacategory") *
@@ -249,12 +275,12 @@ Return the results for the endpoint.
 """
 parse(obj::Endpoint) = error("parse is not defined for $(typeof(obj)).")
 function parse(obj::CDO_Single)
-    response = request("GET", getfield(obj, :url), [("token", CDO_token)])
+    response = request("GET", getfield(obj, :url), [("token", getfield(obj, :token))])
     jsontext = String(getfield(response, :body))
     return skeleton(obj, jsontext)
 end
 function parse(obj::CDO_Meta)
-    header = [("token", CDO_token)]
+    header = [("token", getfield(obj, :token))]
     Ts, Ns = (types(obj), names(obj))
     url = getfield(obj, :url)
     response = request("GET", url, header)
@@ -286,7 +312,7 @@ function parse(obj::CDO_Meta)
     return output
 end
 function parse(obj::CDO_Data)
-    header = [("token", CDO_token)]
+    header = [("token", getfield(obj, :token))]
     urls = getfield(obj, :url)
     Ns, Ts = (names(obj), types(obj))
     output = DataFrame(Ts, Ns, 0)
