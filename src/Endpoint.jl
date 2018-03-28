@@ -195,7 +195,6 @@ function period(startdate::TimeType, enddate::TimeType, dataset::AbstractString)
     starts = string.(startdate:ifelse(dataset ∈ ["GSOM", "GSOY"], Year(10), Year(1)):enddate)
     return "&startdate=" .* starts .* "&enddate=" .* push!(starts[2:end], string(enddate))
 end
-
 """
     names(::Endpoint)::Vector{Symbol}
 
@@ -264,7 +263,7 @@ function skeleton(endpoint::CDO_Single, jsontext::AbstractString)
     output = DataFrame()
     vals = value(jsontext)
     for (col, T, val) ∈ zip(names(endpoint), types(endpoint))
-        output[col] = convert(T, val)
+        output[col] = parse(T, val)
     end
     return output
 end
@@ -295,7 +294,7 @@ function parse(obj::CDO_Meta)
     output = DataFrame(Ts, Ns, Count)
     for elem ∈ json["results"]
         for (col, T, key) ∈ zip(Ns, Ts, Keys)
-            output[idx, col] = convert(T, get(elem, key, missing))
+            output[idx, col] = parse(T, get(elem, key, missing))
         end
         idx += 1
     end
@@ -305,7 +304,7 @@ function parse(obj::CDO_Meta)
         json = value(jsontext)["results"]
         for elem ∈ json
             for (col, T, key) ∈ zip(Ns, Ts, Keys)
-                output[idx, col] = convert(T, get(elem, key, missing))
+                output[idx, col] = parse(T, get(elem, key, missing))
             end
             idx += 1
         end
@@ -329,7 +328,7 @@ function parse(obj::CDO_Data)
         idx = 1
         for elem ∈ json["results"]
             for (col, T, key) ∈ zip(Ns, Ts, Keys)
-                tmp[idx, col] = convert(T, get(elem, key, missing))
+                tmp[idx, col] = parse(T, get(elem, key, missing))
             end
             idx += 1
         end
@@ -339,7 +338,7 @@ function parse(obj::CDO_Data)
             json = value(jsontext)["results"]
             for elem ∈ json
                 for (col, T, key) ∈ zip(Ns, Ts, Keys)
-                    tmp[idx, col] = convert(T, get(elem, key, missing))
+                    tmp[idx, col] = parse(T, get(elem, key, missing))
                 end
                 idx += 1
             end
