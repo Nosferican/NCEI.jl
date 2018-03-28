@@ -1,3 +1,13 @@
+# Helpers
+union_missing(T::Union{DataType, Union}) = Union{T, Missing}
+id_or_chain(obj::AbstractString, kind::AbstractString) = kind * "id=" * obj * "&"
+id_or_chain(obj::AbstractVector{<:AbstractString}, kind::AbstractString) = reduce(*, kind .* "id=" .* obj .* "&")
+function period(startdate::TimeType, enddate::TimeType, dataset::AbstractString)
+    starts = string.(startdate:ifelse(dataset ∈ ["GSOM", "GSOY"], Year(10), Year(1)):enddate)
+    return "&startdate=" .* starts .* "&enddate=" .* push!(starts[2:end], string(enddate))
+end
+for_assignment(T::Union{DataType, Union}, value::Any) = try convert(T, value); catch; T(value) end
+
 abstract type Endpoint end
 struct CDO_Data <: Endpoint
     token::String
@@ -187,16 +197,6 @@ const Types = [union_missing.([DateTime, String, String, String, Float64]),
                union_missing.([Date, Date, String, Float64, String]),
                union_missing.([Float64, Date, Date, Float64, String, Float64, String, String, Float64])
                ]
-
-# Helpers
-union_missing(T::Union{DataType, Union}) = Union{T, Missing}
-id_or_chain(obj::AbstractString, kind::AbstractString) = kind * "id=" * obj * "&"
-id_or_chain(obj::AbstractVector{<:AbstractString}, kind::AbstractString) = reduce(*, kind .* "id=" .* obj .* "&")
-function period(startdate::TimeType, enddate::TimeType, dataset::AbstractString)
-    starts = string.(startdate:ifelse(dataset ∈ ["GSOM", "GSOY"], Year(10), Year(1)):enddate)
-    return "&startdate=" .* starts .* "&enddate=" .* push!(starts[2:end], string(enddate))
-end
-for_assignment(T::Union{DataType, Union}, value::Any) = try convert(T, value); catch; T(value) end
 
 """
     names(::Endpoint)::Vector{Symbol}
