@@ -296,8 +296,8 @@ function parse(obj::CDO_Meta)
     for elem ∈ json["results"]
         for (col, T, key) ∈ zip(Ns, Ts, Keys)
             output[idx, col] = T(get(elem, key, missing))
-            idx += 1
         end
+        idx += 1
     end
     for suburl ∈ urls
         response = request("GET", suburl, header)
@@ -306,8 +306,8 @@ function parse(obj::CDO_Meta)
         for elem ∈ json
             for (col, T, key) ∈ zip(Ns, Ts, Keys)
                 output[idx, col] = T(get(elem, key, missing))
-                idx += 1
             end
+            idx += 1
         end
     end
     return output
@@ -330,8 +330,8 @@ function parse(obj::CDO_Data)
         for elem ∈ json["results"]
             for (col, T, key) ∈ zip(Ns, Ts, Keys)
                 output[idx, col] = T(get(elem, key, missing))
-                idx += 1
             end
+            idx += 1
         end
         for suburl ∈ urls
             response = request("GET", suburl, header)
@@ -340,8 +340,8 @@ function parse(obj::CDO_Data)
             for elem ∈ json
                 for (col, T, key) ∈ zip(Ns, Ts, Keys)
                     output[idx, col] = T(get(elem, key, missing))
-                    idx += 1
                 end
+                idx += 1
             end
         end
         append!(output, tmp)
