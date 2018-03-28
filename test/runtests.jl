@@ -1,18 +1,18 @@
 using NCEI
 using Test: @test, @test_throws, @testset
 
-# const cdo_token = ""
+const cdo_token = ""
 
 @testset "Testing NCEI" begin
     @testset "Endpoint: Data Categories" begin
         all_datasets = cdo_datasets(cdo_token)
-        @test size(all_datasets) == (2, 42)
+        @test size(all_datasets) == (11, 6)
         gsoy = cdo_datasets(cdo_token, "GSOY")
-        @test size(gsoy) == (2, 1)
+        @test size(gsoy) == (1, 5)
         tobs = cdo_datasets(cdo_token, datatypes = "TOBS")
-        @test size(tobs) = (2, 1)
-        station = cdo_datasets(cdo_token, stations = ["COOP:310090" "COOP:310184", "COOP:310212"])
-        @test true
+        @test size(tobs) == (1, 6)
+        station = cdo_datasets(cdo_token, stations = "GHCND:USC00010008")
+        @test size(station) == (6, 6)
     end
     @testset "Endpoint: Datasets" begin
 
@@ -35,4 +35,4 @@ using Test: @test, @test_throws, @testset
     @testset "Endpoint: Data" begin
 
     end
-end
+end;
