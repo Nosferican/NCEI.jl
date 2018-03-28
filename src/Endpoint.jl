@@ -264,7 +264,7 @@ function skeleton(endpoint::CDO_Single, jsontext::AbstractString)
     output = DataFrame()
     vals = value(jsontext)
     for (col, T, val) ∈ zip(names(endpoint), types(endpoint))
-        output[col] = T(val)
+        output[col] = convert(T, val)
     end
     return output
 end
@@ -295,7 +295,7 @@ function parse(obj::CDO_Meta)
     output = DataFrame(Ts, Ns, Count)
     for elem ∈ json["results"]
         for (col, T, key) ∈ zip(Ns, Ts, Keys)
-            output[idx, col] = T(get(elem, key, missing))
+            output[idx, col] = convert(T, get(elem, key, missing))
         end
         idx += 1
     end
@@ -305,7 +305,7 @@ function parse(obj::CDO_Meta)
         json = value(jsontext)["results"]
         for elem ∈ json
             for (col, T, key) ∈ zip(Ns, Ts, Keys)
-                output[idx, col] = T(get(elem, key, missing))
+                output[idx, col] = convert(T, get(elem, key, missing))
             end
             idx += 1
         end
@@ -329,7 +329,7 @@ function parse(obj::CDO_Data)
         idx = 1
         for elem ∈ json["results"]
             for (col, T, key) ∈ zip(Ns, Ts, Keys)
-                output[idx, col] = T(get(elem, key, missing))
+                tmp[idx, col] = convert(T, get(elem, key, missing))
             end
             idx += 1
         end
@@ -339,7 +339,7 @@ function parse(obj::CDO_Data)
             json = value(jsontext)["results"]
             for elem ∈ json
                 for (col, T, key) ∈ zip(Ns, Ts, Keys)
-                    output[idx, col] = T(get(elem, key, missing))
+                    tmp[idx, col] = convert(T, get(elem, key, missing))
                 end
                 idx += 1
             end
