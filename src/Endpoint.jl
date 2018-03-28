@@ -283,6 +283,7 @@ end
 function parse(obj::CDO_Meta)
     header = [("token", getfield(obj, :token))]
     Ts, Ns = (types(obj), names(obj))
+    Keys = string.(Ns)
     url = getfield(obj, :url)
     response = request("GET", url, header)
     jsontext = String(getfield(response, :body))
@@ -293,8 +294,8 @@ function parse(obj::CDO_Meta)
     idx = 1
     output = DataFrame(Ts, Ns, Count)
     for elem ∈ json["results"]
-        for (col, T) ∈ zip(Ns, Ts)
-            output[idx, col] = T(get(elem, col, missing))
+        for (col, T, key) ∈ zip(Ns, Ts, Keys)
+            output[idx, col] = T(get(elem, key, missing))
             idx += 1
         end
     end
@@ -303,8 +304,8 @@ function parse(obj::CDO_Meta)
         jsontext = String(getfield(response, :body))
         json = value(jsontext)["results"]
         for elem ∈ json
-            for (col, T) ∈ zip(Ns, Ts)
-                output[idx, col] = T(get(elem, col, missing))
+            for (col, T, key) ∈ zip(Ns, Ts, Keys)
+                output[idx, col] = T(get(elem, key, missing))
                 idx += 1
             end
         end
@@ -315,8 +316,8 @@ function parse(obj::CDO_Data)
     header = [("token", getfield(obj, :token))]
     urls = getfield(obj, :url)
     Ns, Ts = (names(obj), types(obj))
+    Keys = string.(Ns)
     output = DataFrame(Ts, Ns, 0)
-    cols = 1:size(output, 2)
     for url ∈ urls
         response = request("GET", url, header)
         jsontext = String(getfield(response, :body))
@@ -327,8 +328,8 @@ function parse(obj::CDO_Data)
         tmp = DataFrame(Ts, Ns, Count)
         idx = 1
         for elem ∈ json["results"]
-            for (col, T) ∈ zip(Ns, Ts)
-                output[idx, col] = T(get(elem, col, missing))
+            for (col, T, key) ∈ zip(Ns, Ts, Keys)
+                output[idx, col] = T(get(elem, key, missing))
                 idx += 1
             end
         end
@@ -337,8 +338,8 @@ function parse(obj::CDO_Data)
             jsontext = String(getfield(response, :body))
             json = value(jsontext)["results"]
             for elem ∈ json
-                for (col, T) ∈ zip(Ns, Ts)
-                    output[idx, col] = T(get(elem, col, missing))
+                for (col, T, key) ∈ zip(Ns, Ts, Keys)
+                    output[idx, col] = T(get(elem, key, missing))
                     idx += 1
                 end
             end
