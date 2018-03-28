@@ -185,7 +185,7 @@ const Types = [[DateTime, String, String, String, Float64],
                [String, Date, Date, String, Float64, String],
                [Date, Date, Float64, String],
                [Date, Date, String, Float64, String],
-               [Union{Float64, Missing}, Date, Date, Float64, String, Float64, String, Union{String, Missing}, Float64]
+               [Float64, Date, Date, Float64, String, Float64, String, String, Float64]
                ]
 
 # Helpers
@@ -245,7 +245,7 @@ In case of no results for a data request, return either an empty DataFrame of
 the expected type indicating no data for the query parameters or an ArgumentError
 if it is the result can be deduced to be an error in the argument.
 """
-exception(obj::Endpoint) = DataFrame(types(obj), names(obj), 0)
+exception(obj::Endpoint) = allowmissing!(DataFrame(types(obj), names(obj), 0))
 exception(obj::CDO_DataCategory) = ArgumentError(getfield(obj, :url)[57:end] * " is not a valid data category. For a complete list of valid data categories run `cdo_datacategories(CDO_token::AbstractString)`.")
 exception(obj::CDO_Dataset) = ArgumentError(getfield(obj, :url)[51:end] * " is not a valid dataset. For a complete list of valid datasets run `cdo_datasets(CDO_token::AbstractString)`.")
 exception(obj::CDO_DataType) = ArgumentError(getfield(obj, :url)[52:end] * " is not a valid data type. For a complete list of valid data types run `cdo_datatypes(CDO_token::AbstractString)`.")
@@ -262,10 +262,12 @@ If an empty JSON indicates an ArgumentError this one is throw.
 """
 function skeleton(endpoint::CDO_Single, jsontext::AbstractString)
     jsontext == "{}" && return exception(endpoint)
-    output = DataFrame()
+    Ts, Ns = (types(endpoint), names(endpoint))
+    Keys = string.(Ns)
+    output = allowmissing!(DataFrame(Ts, Ns, 1))
     vals = value(jsontext)
-    for (col, T, val) ∈ zip(names(endpoint), types(endpoint))
-        output[col] = for_assignment(T, val)
+    for (col, T, key) ∈ zip(Ns, Ts, Keys)
+        output[col] = for_assignment(T, get(vals, key, missing))
     end
     return output
 end
@@ -288,12 +290,12 @@ function parse(obj::CDO_Meta)
     url = getfield(obj, :url)
     response = request("GET", url, header)
     jsontext = String(getfield(response, :body))
-    jsontext == "{}" && return DataFrame(types(obj), names(obj), 0)
+    jsontext == "{}" && return allowmissing!(DataFrame(Ts, Ns, 0))
     json = value(jsontext)
     Count = Int64(json["metadata"]["resultset"]["count"])
     urls = url[1:end - 1] .* string.(1:1000:Count)[2:end]
     idx = 1
-    output = DataFrame(Ts, Ns, Count)
+    output = allowmissing!(DataFrame(Ts, Ns, Count))
     for elem ∈ json["results"]
         for (col, T, key) ∈ zip(Ns, Ts, Keys)
             output[idx, col] = for_assignment(T, get(elem, key, missing))
@@ -318,15 +320,15 @@ function parse(obj::CDO_Data)
     urls = getfield(obj, :url)
     Ns, Ts = (names(obj), types(obj))
     Keys = string.(Ns)
-    output = DataFrame(Ts, Ns, 0)
+    output = allowmissing!(DataFrame(Ts, Ns, 0))
     for url ∈ urls
         response = request("GET", url, header)
         jsontext = String(getfield(response, :body))
-        jsontext == "{}" && return DataFrame(types(obj), names(obj), 0)
+        jsontext == "{}" && return allowmissing!(DataFrame(Ts, Ns, 0))
         json = value(jsontext)
         Count = Int64(json["metadata"]["resultset"]["count"])
         urls = url[1:end - 1] .* string.(1:1000:Count)[2:end] .* "&includemetadata=false"
-        tmp = DataFrame(Ts, Ns, Count)
+        tmp = allowmissing!(DataFrame(Ts, Ns, Count))
         idx = 1
         for elem ∈ json["results"]
             for (col, T, key) ∈ zip(Ns, Ts, Keys)

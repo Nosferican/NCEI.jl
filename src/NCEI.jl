@@ -6,7 +6,7 @@ using LazyJSON: value # Needs to be run first in MacOS for some reason
 using LazyJSON.PropertyDicts: get
 
 using Dates: Day, Date, DateTime, TimeType, today, Year
-using DataFrames: DataFrame
+using DataFrames: DataFrame, allowmissing!
 using HTTP: request
 
 import Base: names, parse
