@@ -6,7 +6,10 @@ function period(startdate::TimeType, enddate::TimeType, dataset::AbstractString)
     starts = string.(startdate:ifelse(dataset ∈ ["GSOM", "GSOY"], Year(10), Year(1)):enddate)
     return "&startdate=" .* starts .* "&enddate=" .* push!(starts[2:end], string(enddate))
 end
-for_assignment(T::Union{DataType, Union}, value::Any) = try convert(T, value); catch; T(value) end
+for_assignment(T::Union{DataType, Union}, value::Missing) = missing
+for_assignment(T::Union{DataType, Union}, value::AbstractString) = convert(T, value)
+for_assignment(T::Union{DateTime, Missing}, value::AbstractString) = DateTime(convert(String, value))
+for_assignment(T::Union{Date, Missing}, value::AbstractString) = Date(convert(String, value))
 
 abstract type Endpoint end
 struct CDO_Data <: Endpoint
