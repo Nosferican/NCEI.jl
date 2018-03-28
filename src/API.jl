@@ -80,7 +80,7 @@ function cdo_datasets(CDO_token::AbstractString;
                       startdate::Date = Date("0001-01-01"),
                       enddate::Date = today())
     textwidth(CDO_token) == 32 || throw(CDO_NonValidToken)
-    return parse(CDO_Datasets(CDO_token, datatype, locations, stations, startdate, enddate))
+    return parse(CDO_Datasets(CDO_token, datatypes, locations, stations, startdate, enddate))
 end
 
 # Data Types
