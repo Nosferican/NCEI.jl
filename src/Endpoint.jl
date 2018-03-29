@@ -235,7 +235,7 @@ const Types = [[DateTime, String, String, Union{String, Missing}, Float64],
                [String, Date, Date, String, Float64, String],
                [Date, Date, Float64, String],
                [Date, Date, String, Float64, String],
-               [Union{Float64 Missing}, Date, Date, Float64, String, Float64, String, Union{String, Missing}, Float64])
+               [Union{Float64, Missing}, Date, Date, Float64, String, Float64, String, Union{String, Missing}, Float64]
                ]
 
 """
