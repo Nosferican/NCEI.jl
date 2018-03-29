@@ -1,7 +1,7 @@
 using Documenter, NCEI
 
 makedocs(
-    # format = :html,
+    format = :html,
     sitename = "NCEI.jl",
     pages = [
         "index.md",

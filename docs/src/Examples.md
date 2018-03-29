@@ -1,8 +1,9 @@
-# Examples
-
-## Climate Data Online (CDO)
+# Walkthrough
 
 - Set Up
+
+After installing the package one can call it in a new session as any other package.
+A good practice is to define the `cdo_token` one intends to use for that session.
 
 ```@example Tutorial
 using NCEI
@@ -10,6 +11,12 @@ const cdo_token = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" # A token has form: r"[A-Za
 ```
 
 - Datasets
+
+One should first inspect the data sets available to select the ones the appropriate ones.
+Good information about a data set is its ID which one needs to query data from that dataset,
+the temporal coverage available, and the documentation can be accessed through the uid.
+For example, the daily summaries dataset (GHCND) has uid: C00861. The information for
+this dataset can be accessed at: [https://data.nodc.noaa.gov/cgi-bin/iso?id=gov.noaa.ncdc:C00861](https://data.nodc.noaa.gov/cgi-bin/iso?id=gov.noaa.ncdc:C00861).
 
 ```@example Tutorial
 # Fetch all available datasets
@@ -27,6 +34,8 @@ cdo_datasets(cdo_token, stations = "GHCND:USC00010008")
 
 - Data Categories
 
+The next step is to find the data categories one might need (e.g., temperature vs precipitation).
+
 ```@example Tutorial
 # Fetch all available data categories
 cdo_datacategories(cdo_token)
@@ -39,6 +48,8 @@ cdo_datacategories(cdo_token, locations = ["FIPS:37", "CITY:US390029"])
 ```
 
 - Data Types
+
+Now we can inspect which variables we want to query from what data set.
 
 ```@example Tutorial
 # Fetch available data types
@@ -56,6 +67,9 @@ cdo_datatypes(cdo_token, stations = ["COOP:310090", "COOP:310184", "COOP:310212"
 
 - Location Categories
 
+We must identify the spatial constraints of the search and that can be accomplished
+at various levels (e.g., State vs Zipcode).
+
 ```@example Tutorial
 # Fetch all available location categories
 cdo_locationcategories(cdo_token)
@@ -68,6 +82,8 @@ cdo_locationcategories(cdo_token, startdate = Date("1970-01-01"))
 ```
 
 - Locations
+
+Now select which locations are of interest.
 
 ```@example Tutorial
 # Fetch available locations
@@ -85,6 +101,11 @@ cdo_locations(cdo_token, locationcategories = "ST")
 
 - Stations
 
+Lastly, one can obtain the relevant stations and verify their spatial information,
+temporal coverage, and data quality. To select from feasible weather stations one
+can use packages such as `Distances.jl` to obtain the nearest acceptable weather station
+to the desired location.
+
 ```@example Tutorial
 # Fetch all available stations
 cdo_stations(cdo_token)
@@ -100,6 +121,11 @@ cdo_stations(cdo_token, datatypes = ["EMNT", "EMXT", "HTMN"])
 ```
 
 - Data
+
+The final step is to obtain the raw data itself. A few transformations are recommended
+before proceeding with the analysis of the data (e.g., transforming the data frame from
+long to short and filling the missing records with missing values for those observations).
+Read the documentation to interpret the various flags under the attributes column.
 
 ```@example Tutorial
 # Fetch data from the GHCND dataset (Daily Summaries) for zip code 28801, May 1st of 2010

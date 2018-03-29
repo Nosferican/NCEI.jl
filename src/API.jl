@@ -176,7 +176,7 @@ function cdo_locations(CDO_token::AbstractString;
                        datasets::Union{AbstractString, AbstractVector{<:AbstractString}} = "",
                        locationcategories::Union{AbstractString, AbstractVector{<:AbstractString}} = "",
                        datacategories::Union{AbstractString, AbstractVector{<:AbstractString}} = "",
-                       startdate::Date = Date("1763-01-01"),
+                       startdate::Date = Date("0001-01-01"),
                        enddate::Date = today())
     isvalid_cdotoken(CDO_token) || throw(CDO_NonValidToken)
     isempty(locationcategories) || isvalid_locationcategories(locationcategories) || throw(CDO_NonValidLocationCategories)

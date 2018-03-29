@@ -13,9 +13,7 @@ Once installed it can be loaded using as any other Julian package
 using NCEI
 ```
 
-## Documentation
-
-### Climate Data Online (CDO)
+## Documentation for the Climate Data Online (CDO) API
 
 ```@docs
 cdo_datasets
