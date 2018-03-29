@@ -11,5 +11,5 @@ The release will be made available for Julia 0.7.
 
 ```@contents
 Pages = ["GettingStarted.md",
-				 "Examples.md"]
+				 "Walkthrough.md"]
 ```

@@ -20,4 +20,4 @@ after_success:
   - julia -e 'cd(Pkg.dir("NCEI")); Pkg.add("Coverage"); using Coverage; Codecov.submit(Codecov.process_folder())'
   # Documentation
   - julia -e 'Pkg.add("Documenter")'
-  - julia -e 'cd(Pkg.dir("NCEI")); include(joinpath("docs", "make.jl"))'
+  - julia -e '--depwarn=no cd(Pkg.dir("NCEI")); include(joinpath("docs", "make.jl"))'

@@ -6,12 +6,13 @@ makedocs(
     pages = [
         "index.md",
         "GettingStarted.md",
-        "Examples.md"
+        "Walkthrough.md"
     ]
 )
 
 deploydocs(
-    deps = Deps.pip("pygments", "mkdocs", "python-markdown-math"),
+    deps = Deps.pip("pygments", "mkdocs"),
     repo = "github.com/Nosferican/NCEI.jl.git",
-    julia  = "0.7-DEV.4708"
+    target = "build",
+    make = nothing
 )
