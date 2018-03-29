@@ -60,7 +60,7 @@ const cdo_token = ENV["cdo_token"]
         GHCND = cdo_data(cdo_token, "GHCND", Date("2010-05-01"), Date("2010-05-01"), locations = "ZIP:28801")
         @test size(GHCND) == (8, 5)
         station = cdo_data(cdo_token, "PRECIP_15", Date("2010-05-01"), Date("2010-05-31"), stations = "COOP:010008")
-        @test size(station) == (63, )
+        @test size(station) == (63, 5)
         GSOM = cdo_data(cdo_token, "GSOM", Date("2010-05-01"), Date("2010-05-31"), stations = "GHCND:USC00010008")
         @test size(GSOM) == (10, 5)
     end
