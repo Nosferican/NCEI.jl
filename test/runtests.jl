@@ -11,6 +11,7 @@ const cdo_token = ENV["cdo_token"]
         @test size(one_data_category) == (1, 2)
         datacategory_location = cdo_datacategories(cdo_token, locations = "CITY:US390029")
         @test size(datacategory_location) == (38, 2)
+        @test_throws ArgumentError("N7 is not a valid data category. For a complete list of valid data categories run `cdo_datacategories(CDO_token::AbstractString)`.") cdo_datacategories(cdo_token, "N7")
     end
     @testset "Endpoint: Datasets" begin
         all_datasets = cdo_datasets(cdo_token)
@@ -21,6 +22,7 @@ const cdo_token = ENV["cdo_token"]
         @test size(one_datatype) == (1, 6)
         station = cdo_datasets(cdo_token, stations = "GHCND:USC00010008")
         @test size(station) == (6, 6)
+        @test_throws ArgumentError("N7 is not a valid dataset. For a complete list of valid datasets run `cdo_datasets(CDO_token::AbstractString)`.") cdo_datasets(cdo_token, "N7")
     end
     @testset "Endpoint: Data Types" begin
         all_datatypes = cdo_datatypes(cdo_token)
@@ -31,6 +33,7 @@ const cdo_token = ENV["cdo_token"]
         @test size(datacategory) == (59, 5)
         datacategories = cdo_datatypes(cdo_token, stations = ["COOP:310090", "COOP:310184", "COOP:310212"])
         @test size(datacategories) == (21, 5)
+        @test_throws ArgumentError("N7 is not a valid data type. For a complete list of valid data types run `cdo_datatypes(CDO_token::AbstractString)`.") cdo_datatypes(cdo_token, "N7")
     end
     @testset "Endpoint: Location Categories" begin
         all_locationcategories = cdo_locationcategories(cdo_token)
@@ -39,6 +42,7 @@ const cdo_token = ENV["cdo_token"]
         @test size(one_locationcategory) == (1, 2)
         locationcategory = cdo_locationcategories(cdo_token, startdate = Date("1970-01-01"))
         @test size(locationcategory) == (12, 2)
+        @test_throws ArgumentError("N7 is not a valid location category. For a complete list of valid location categories run `cdo_locationcategories(CDO_token::AbstractString)`.") cdo_locationcategories(cdo_token, "N7")
     end
     @testset "Endpoint: Locations" begin
         all_locations = cdo_locations(cdo_token)
@@ -47,6 +51,7 @@ const cdo_token = ENV["cdo_token"]
         @test size(one_location) == (1, 5)
         location = cdo_locations(cdo_token, datasets = "GHCND")
         @test size(location) == (28195, 5)
+        @test_throws ArgumentError("N7 is not a valid location. For a complete list of valid locations run `cdo_locations(CDO_token::AbstractString)`.") cdo_locations(cdo_token, "N7")
     end
     @testset "Endpoint: Stations" begin
         station = cdo_stations(cdo_token, "COOP:010008")
@@ -55,6 +60,7 @@ const cdo_token = ENV["cdo_token"]
         @test size(location) == (2481, 9)
         stations = cdo_stations(cdo_token, datatypes = ["EMNT", "EMXT", "HTMN"])
         @test size(stations) == (12699, 9)
+        @test_throws ArgumentError("N7 is not a valid weather station. For a complete list of valid stations run `cdo_stations(CDO_token::AbstractString)`.") cdo_stations(cdo_token, "N7")
     end
     @testset "Endpoint: Data" begin
         GHCND = cdo_data(cdo_token, "GHCND", Date("2010-05-01"), Date("2010-05-01"), locations = "ZIP:28801")
@@ -67,5 +73,10 @@ const cdo_token = ENV["cdo_token"]
         @test size(Yearly) == (1093, 5)
         Decade = cdo_data(cdo_token, "GSOY", Date(1990,1,1), Date(2001,12,31), datatypes = "TAVG", locations = "ZIP:91711")
         @test size(Decade) == (3, 5)
+    end
+    @testset "Are these valid arguments?" begin
+        @test_throws ArgumentError cdo_datacategories(cdo_token, locations = "California")
+        @test_throws ArgumentError cdo_datasets(cdo_token, stations = "USC00010008")
+        @test_throws ArgumentError cdo_datatypes(cdo_token, datacategories = "temp")
     end
 end;
