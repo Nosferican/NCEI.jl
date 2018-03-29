@@ -27,7 +27,7 @@ isvalid_locations(obj::AbstractVector{<:AbstractString}) = all(isvalid_locations
 isvalid_locations(obj::AbstractString) = occursin(r"^(CITY|CLIM_DIV|CLIM_REG|CNTRY|CNTY|HYD_ACC|HYD_CAT|HYD_REG|HYD_SUB|ST|US_TERR|ZIP):[A-Z0-9]{1,}$", obj)
 isvalid_stations(obj::AbstractVector{<:AbstractString}) = all(isvalid_stations, obj)
 isvalid_stations(obj::AbstractString) = occursin(r"^(COOP|GHCND|NEXRAD|WBAN):[a-zA-Z0-9-_]{1,}$", obj)
-isvalid_extent(obj::AbstractVector{<:AbstractFloat}) = length(extent) ∈ [0, 4]
+isvalid_extent(obj::AbstractVector{<:AbstractFloat}) = length(obj) ∈ [0, 4]
 
 # Struct
 abstract type Endpoint end
@@ -231,9 +231,9 @@ const Names = [[:date, :datatype, :station, :attributes, :value],
                ]
 const Types = [[DateTime, String, String, Union{String, Missing}, Float64],
                [String, String],
-               [Date, Date, String, Float64, String],
+               [Date, Date, String, Union{Float64, Missing}, String],
                [String, Date, Date, String, Float64, String],
-               [Date, Date, Float64, String],
+               [Date, Date, Union{Float64, Missing}, String],
                [Date, Date, String, Float64, String],
                [Union{Float64, Missing}, Date, Date, Float64, String, Float64, String, Union{String, Missing}, Float64]
                ]
