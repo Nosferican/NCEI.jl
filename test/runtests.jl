@@ -26,15 +26,15 @@ const cdo_token = ENV["cdo_token"]
         all_datatypes = cdo_datatypes(cdo_token)
         @test size(all_datatypes) == (1527, 5)
         one_datatype = cdo_datatypes(cdo_token, "ACMH")
-        @test size(one_dataset) == (1, 4)
+        @test size(one_datatype) == (1, 4)
         datacategory = cdo_datatypes(cdo_token, datacategories = "TEMP")
         @test size(datacategory) == (59, 5)
         datacategories = cdo_datatypes(cdo_token, stations = ["COOP:310090", "COOP:310184", "COOP:310212"])
         @test size(datacategories) == (21, 5)
     end
     @testset "Endpoint: Location Categories" begin
-        all_locationcategories = cdo_locationcategory(cdo_token)
-        @test size(all_locationcategories) == (1527, 5)
+        all_locationcategories = cdo_locationcategories(cdo_token)
+        @test size(all_locationcategories) == (12, 2)
         one_locationcategory = cdo_locationcategories(cdo_token, "CLIM_REG")
         @test size(one_locationcategory) == (1, 2)
         locationcategory = cdo_locationcategories(cdo_token, startdate = Date("1970-01-01"))
@@ -62,6 +62,6 @@ const cdo_token = ENV["cdo_token"]
         station = cdo_data(cdo_token, "PRECIP_15", Date("2010-05-01"), Date("2010-05-31"), stations = "COOP:010008")
         @test size(station) == (63, )
         GSOM = cdo_data(cdo_token, "GSOM", Date("2010-05-01"), Date("2010-05-31"), stations = "GHCND:USC00010008")
-        size(GSOM) == (10, 5)
+        @test size(GSOM) == (10, 5)
     end
 end;

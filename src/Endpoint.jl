@@ -27,8 +27,8 @@ struct CDO_Data <: Endpoint
         url = "https://www.ncdc.noaa.gov/cdo-web/api/v2/data?datasetid=" * dataset * "&" *
               id_or_chain(datatypes, "datatype") *
               id_or_chain(locations, "location") *
-              "units=" * ifelse(metric, "metric", "standard") .*
-              id_or_chain(stations, "station") .*
+              id_or_chain(stations, "station") *
+              "units=" * ifelse(metric, "metric", "standard") *
               period(startdate, enddate, dataset) .*
               "&limit=1000&offset=1"
         return new(CDO_token, url)
