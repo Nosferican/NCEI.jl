@@ -1,17 +1,35 @@
 # Helpers
-union_missing(T::Union{DataType, Union}) = Union{T, Missing}
 id_or_chain(obj::AbstractString, kind::AbstractString) = kind * "id=" * obj * "&"
 id_or_chain(obj::AbstractVector{<:AbstractString}, kind::AbstractString) = reduce(*, kind .* "id=" .* obj .* "&")
 function period(startdate::TimeType, enddate::TimeType, dataset::AbstractString)
     starts = string.(startdate:ifelse(dataset ∈ ["GSOM", "GSOY"], Year(10), Year(1)):enddate)
     return "&startdate=" .* starts .* "&enddate=" .* push!(starts[2:end], string(enddate))
 end
-
 for_assignment(::Type{Union{Missing, T}}, value::Missing) where T <: Union{AbstractString, Number, TimeType} = missing
 for_assignment(::Type{Union{Missing, T}}, value::AbstractString) where T <: AbstractString = convert(T, value)
 for_assignment(::Type{Union{Missing, T}}, value::Number) where T <: Number = convert(T, value)
 for_assignment(::Type{Union{Missing, T}}, value::AbstractString) where T <: TimeType = T(convert(String, value))
+for_assignment(::Type{T}, value::Missing) where T <: Union{AbstractString, Number, TimeType} = missing
+for_assignment(::Type{T}, value::AbstractString) where T <: AbstractString = convert(T, value)
+for_assignment(::Type{T}, value::Number) where T <: Number = convert(T, value)
+for_assignment(::Type{T}, value::AbstractString) where T <: TimeType = T(convert(String, value))
 
+isvalid_cdotoken(obj::AbstractString) = occursin(r"[A-Za-z]{32}", obj)
+isvalid_datsets(obj::AbstractVector{<:AbstractString}) = all(isvalid_datsets, obj)
+isvalid_datsets(obj::AbstractString) = obj ∈ DATASETS
+isvalid_datacategories(obj::AbstractVector{<:AbstractString}) = all(isvalid_datacategories, obj)
+isvalid_datacategories(obj::AbstractString) = obj ∈ DATACATEGORIES
+isvalid_datatypes(obj::AbstractVector{<:AbstractString}) = all(elem -> occursin(r"^[A-Z0-9-]{3,}$", elem), obj)
+isvalid_datatypes(obj::AbstractString) = occursin(r"^[A-Z0-9-]{3,}$", obj)
+isvalid_locationcategories(obj::AbstractVector{<:AbstractString}) = all(isvalid_locationcategories, obj)
+isvalid_locationcategories(obj::AbstractString) = obj ∈ LOCATIONCATEGORIES
+isvalid_locations(obj::AbstractVector{<:AbstractString}) = all(isvalid_locations, obj)
+isvalid_locations(obj::AbstractString) = occursin(r"^(CITY|CLIM_DIV|CLIM_REG|CNTRY|CNTY|FIPS|HYD_ACC|HYD_CAT|HYD_REG|HYD_SUB|ST|US_TERR|ZIP):[A-Z0-9]{1,}$", obj)
+isvalid_stations(obj::AbstractVector{<:AbstractString}) = all(isvalid_stations, obj)
+isvalid_stations(obj::AbstractString) = occursin(r"^(COOP|GHCND|NEXRAD|WBAN):[a-zA-Z0-9-_]{1,}$", obj)
+isvalid_extent(obj::AbstractVector{<:AbstractFloat}) = length(obj) ∈ [0, 4]
+
+# Struct
 abstract type Endpoint end
 struct CDO_Data <: Endpoint
     token::String
@@ -184,7 +202,24 @@ end
 # Constants
 const CDO_Single = Union{CDO_DataCategory, CDO_Dataset, CDO_DataType, CDO_LocationCategory, CDO_Location, CDO_Station}
 const CDO_Meta = Union{CDO_Data, CDO_DataCategories, CDO_Datasets, CDO_DataTypes, CDO_LocationCategories, CDO_Locations, CDO_Stations}
+const DATASETS = ["GHCND", "GSOM", "GSOY", "NEXRAD2", "NEXRAD3", "NORMAL_ANN",
+                  "NORMAL_DLY", "NORMAL_HLY", "NORMAL_MLY", "PRECIP_15", "PRECIP_HLY"]
+const LOCATIONCATEGORIES = ["CITY", "CLIM_DIV", "CLIM_REG", "CNTRY", "CNTY", "HYD_ACC",
+                            "HYD_CAT", "HYD_REG", "HYD_SUB", "ST", "US_TERR", "ZIP"]
+const DATACATEGORIES = ["ANNAGR", "ANNDD", "ANNPRCP", "ANNTEMP", "AUAGR", "AUDD",
+                        "AUPRCP", "AUTEMP", "COMP", "COMPAGR", "DD", "DUALPOLMOMENT",
+                        "ECHOTOP", "EVAP", "HYDROMETEOR", "LAND", "MISC", "OTHER", "OVERLAY",
+                        "PRCP", "PRES", "REFLECTIVITY", "SKY", "SPAGR", "SPDD", "SPPRCP", "SPTEMP",
+                        "SUAGR", "SUDD", "SUN", "SUPRCP", "SUTEMP", "TEMP", "VELOCITY", "VERTINTLIQUID",
+                        "WATER", "WIAGR", "WIDD", "WIND", "WIPRCP", "WITEMP", "WXTYPE"]
 const CDO_NonValidToken = ArgumentError("The CDO_token is not valid.")
+const CDO_NonValidDatasets = ArgumentError("The provided datasets argument is not valid. Valid datasets are: " * reduce(*, DATASETS .* ", ")[1:end - 2] * ".")
+const CDO_NonValidDataCategories = ArgumentError("The data category argument is not valid. Valid data categories are: " * reduce(*, DATACATEGORIES .* ", ")[1:end - 2] * ".")
+const CDO_NonValidDataTypes = ArgumentError("The provided datatypes argument is not valid. A valid data type has form r\"^[A-Z0-9-]{3,}\$\"")
+const CDO_NonValidLocationCategories = ArgumentError("The provided location categories argument is not valid. Valid location categories are: CITY, CLIM_DIV, CLIM_REG, CNTRY, CNTY, HYD_ACC, HYD_CAT, HYD_REG, HYD_SUB, ST, US_TERR, ZIP.")
+const CDO_NonValidLocations = ArgumentError("The provided locations argument is not valid. A valid location has form r\"^(CITY|CLIM_DIV|CLIM_REG|CNTRY|CNTY|FIPS|HYD_ACC|HYD_CAT|HYD_REG|HYD_SUB|ST|US_TERR|ZIP):[A-Z0-9]{1,}\$\"")
+const CDO_NonValidStations = ArgumentError("The provided locations argument is not valid. A valid location has form r\"(COOP|GHCND|NEXRAD|WBAN):[a-zA-Z0-9-]{1,}\$\"")
+const CDO_NonValidExtent = ArgumentError("Extent must be of length 0 or 4.")
 
 const Names = [[:date, :datatype, :station, :attributes, :value],
                [:name, :id],
@@ -194,13 +229,13 @@ const Names = [[:date, :datatype, :station, :attributes, :value],
                [:mindate, :maxdate, :name, :datacoverage, :id],
                [:elevation, :mindate, :maxdate, :latitude, :name, :datacoverage, :id, :elevationUnit, :longitude]
                ]
-const Types = [union_missing.([DateTime, String, String, String, Float64]),
-               union_missing.([String, String]),
-               union_missing.([Date, Date, String, Float64, String]),
-               union_missing.([String, Date, Date, String, Float64, String]),
-               union_missing.([Date, Date, Float64, String]),
-               union_missing.([Date, Date, String, Float64, String]),
-               union_missing.([Float64, Date, Date, Float64, String, Float64, String, String, Float64])
+const Types = [[DateTime, String, String, Union{String, Missing}, Float64],
+               [String, String],
+               [Date, Date, String, Union{Float64, Missing}, String],
+               [String, Date, Date, String, Float64, String],
+               [Date, Date, Union{Float64, Missing}, String],
+               [Date, Date, String, Float64, String],
+               [Union{Float64, Missing}, Date, Date, Float64, String, Float64, String, Union{String, Missing}, Float64]
                ]
 
 """

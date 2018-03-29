@@ -2,9 +2,10 @@
 
 ## Installation
 
-During the Beta test stage the package can be installed using:
+The package can be installed using:
 ```julia
-Pkg.clone("https://github.com/Nosferican/NCEI.jl")
+using Pkg
+Pkg.add("NCEI")
 ```
 
 Once installed it can be loaded using as any other Julian package
@@ -12,15 +13,13 @@ Once installed it can be loaded using as any other Julian package
 using NCEI
 ```
 
-## Documentation
-
-### Climate Data Online (CDO)
+## Documentation for the Climate Data Online (CDO) API
 
 ```@docs
 cdo_datasets
 cdo_datacategories
 cdo_datatypes
-cdo_locationscategories
+cdo_locationcategories
 cdo_locations
 cdo_stations
 cdo_data

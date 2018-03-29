@@ -63,5 +63,9 @@ const cdo_token = ENV["cdo_token"]
         @test size(station) == (63, 5)
         GSOM = cdo_data(cdo_token, "GSOM", Date("2010-05-01"), Date("2010-05-31"), stations = "GHCND:USC00010008")
         @test size(GSOM) == (10, 5)
+        Yearly = cdo_data(cdo_token, "GHCND", Date(2000,1,1), Date(2002,12,31), datatypes = "TAVG", locations = "ZIP:91711")
+        @test size(Yearly) == (1093, 5)
+        Decade = cdo_data(cdo_token, "GSOY", Date(1990,1,1), Date(2001,12,31), datatypes = "TAVG", locations = "ZIP:91711")
+        @test size(Decade) == (3, 5)
     end
 end;
