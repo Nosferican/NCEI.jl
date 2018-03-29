@@ -28,7 +28,7 @@ struct CDO_Data <: Endpoint
               id_or_chain(datatypes, "datatype") *
               id_or_chain(locations, "location") *
               id_or_chain(stations, "station") *
-              "units=" * ifelse(metric, "metric", "standard") *
+              "units=" * ifelse(metric, "metric", "standard") .*
               period(startdate, enddate, dataset) .*
               "&limit=1000&offset=1"
         return new(CDO_token, url)
