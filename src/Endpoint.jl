@@ -24,7 +24,7 @@ isvalid_datatypes(obj::AbstractString) = occursin(r"^[A-Z0-9-]{3,}$", obj)
 isvalid_locationcategories(obj::AbstractVector{<:AbstractString}) = all(isvalid_locationcategories, obj)
 isvalid_locationcategories(obj::AbstractString) = obj ∈ LOCATIONCATEGORIES
 isvalid_locations(obj::AbstractVector{<:AbstractString}) = all(isvalid_locations, obj)
-isvalid_locations(obj::AbstractString) = occursin(r"^(CITY|CLIM_DIV|CLIM_REG|CNTRY|CNTY|HYD_ACC|HYD_CAT|HYD_REG|HYD_SUB|ST|US_TERR|ZIP):[A-Z0-9]{1,}$", obj)
+isvalid_locations(obj::AbstractString) = occursin(r"^(CITY|CLIM_DIV|CLIM_REG|CNTRY|CNTY|FIPS|HYD_ACC|HYD_CAT|HYD_REG|HYD_SUB|ST|US_TERR|ZIP):[A-Z0-9]{1,}$", obj)
 isvalid_stations(obj::AbstractVector{<:AbstractString}) = all(isvalid_stations, obj)
 isvalid_stations(obj::AbstractString) = occursin(r"^(COOP|GHCND|NEXRAD|WBAN):[a-zA-Z0-9-_]{1,}$", obj)
 isvalid_extent(obj::AbstractVector{<:AbstractFloat}) = length(obj) ∈ [0, 4]
@@ -217,7 +217,7 @@ const CDO_NonValidDatasets = ArgumentError("The provided datasets argument is no
 const CDO_NonValidDataCategories = ArgumentError("The data category argument is not valid. Valid data categories are: " * reduce(*, DATACATEGORIES .* ", ")[1:end - 2] * ".")
 const CDO_NonValidDataTypes = ArgumentError("The provided datatypes argument is not valid. A valid data type has form r\"^[A-Z0-9-]{3,}\$\"")
 const CDO_NonValidLocationCategories = ArgumentError("The provided location categories argument is not valid. Valid location categories are: CITY, CLIM_DIV, CLIM_REG, CNTRY, CNTY, HYD_ACC, HYD_CAT, HYD_REG, HYD_SUB, ST, US_TERR, ZIP.")
-const CDO_NonValidLocations = ArgumentError("The provided locations argument is not valid. A valid location has form r\"^(CITY|CLIM_DIV|CLIM_REG|CNTRY|CNTY|HYD_ACC|HYD_CAT|HYD_REG|HYD_SUB|ST|US_TERR|ZIP):[A-Z0-9]{1,}\$\"")
+const CDO_NonValidLocations = ArgumentError("The provided locations argument is not valid. A valid location has form r\"^(CITY|CLIM_DIV|CLIM_REG|CNTRY|CNTY|FIPS|HYD_ACC|HYD_CAT|HYD_REG|HYD_SUB|ST|US_TERR|ZIP):[A-Z0-9]{1,}\$\"")
 const CDO_NonValidStations = ArgumentError("The provided locations argument is not valid. A valid location has form r\"(COOP|GHCND|NEXRAD|WBAN):[a-zA-Z0-9-]{1,}\$\"")
 const CDO_NonValidExtent = ArgumentError("Extent must be of length 0 or 4.")
 

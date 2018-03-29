@@ -179,7 +179,7 @@ function cdo_locations(CDO_token::AbstractString;
                        startdate::Date = Date("1763-01-01"),
                        enddate::Date = today())
     isvalid_cdotoken(CDO_token) || throw(CDO_NonValidToken)
-    isempty(locationCategories) || isvalid_locationcategories(locationcategories) || throw(CDO_NonValidLocationCategories)
+    isempty(locationcategories) || isvalid_locationcategories(locationcategories) || throw(CDO_NonValidLocationCategories)
     return parse(CDO_Locations(CDO_token, datasets, locationcategories, datacategories, startdate, enddate))
 end
 
