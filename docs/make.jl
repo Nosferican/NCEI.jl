@@ -13,5 +13,5 @@ makedocs(
 deploydocs(
     deps = Deps.pip("pygments", "mkdocs", "python-markdown-math"),
     repo = "github.com/Nosferican/NCEI.jl.git",
-    julia  = "0.6"
+    julia  = "0.7-DEV.4708"
 )
