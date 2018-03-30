@@ -13,7 +13,7 @@ var documenterSearchIndex = {"docs": [
     "page": "NCEI.jl Documentation",
     "title": "NCEI.jl Documentation",
     "category": "section",
-    "text": "CurrentModule = NCEINCEI.jl provides an interface for the National Centers for Environmental Information (NCEI) API services including the NCDC\'s Climate Data Online (CDO) Web Services v2.The release will be made available for Julia 0.7.Pages = [\"GettingStarted.md\",\n				 \"Walkthrough.md\"]"
+    "text": "CurrentModule = NCEINCEI.jl provides an interface for the National Centers for Environmental Information (NCEI) API services including the NCDC\'s Climate Data Online (CDO) Web Services v2.Please be sure to cite properly the datasets used from the National Centers for Environmental Information (NCEI). Please cite this package using the provided (Image: DOI).Pages = [\"GettingStarted.md\",\n				 \"Walkthrough.md\"]"
 },
 
 {
