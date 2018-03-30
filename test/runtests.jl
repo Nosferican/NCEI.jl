@@ -40,26 +40,20 @@ if occursin(r"[A-Za-z]{32}", get(ENV, "cdo_token", ""))
             @test size(all_locationcategories) == (12, 2)
             one_locationcategory = cdo_locationcategories(cdo_token, "CLIM_REG")
             @test size(one_locationcategory) == (1, 2)
-            locationcategory = cdo_locationcategories(cdo_token, startdate = Date("1970-01-01"))
-            @test size(locationcategory) == (12, 2)
             @test_throws ArgumentError("N7 is not a valid location category. For a complete list of valid location categories run `cdo_locationcategories(CDO_token::AbstractString)`.") cdo_locationcategories(cdo_token, "N7")
         end
         @testset "Endpoint: Locations" begin
-            all_locations = cdo_locations(cdo_token)
-            @test size(all_locations) == (38860, 5)
+            all_locations = cdo_locations(cdo_token, datasets = "GHCND", locationcategories = "ST")
+            @test size(all_locations) == (51, 5)
             one_location = cdo_locations(cdo_token, "FIPS:37")
             @test size(one_location) == (1, 5)
-            location = cdo_locations(cdo_token, datasets = "GHCND")
-            @test size(location) == (28195, 5)
             @test_throws ArgumentError("N7 is not a valid location. For a complete list of valid locations run `cdo_locations(CDO_token::AbstractString)`.") cdo_locations(cdo_token, "N7")
         end
         @testset "Endpoint: Stations" begin
             station = cdo_stations(cdo_token, "COOP:010008")
             @test size(station) == (1, 9)
-            location = cdo_stations(cdo_token, locations = "FIPS:37")
-            @test size(location) == (2481, 9)
-            stations = cdo_stations(cdo_token, datatypes = ["EMNT", "EMXT", "HTMN"])
-            @test size(stations) == (12699, 9)
+            location = cdo_stations(cdo_token, locations = "FIPS:37", startdate = Date(2000,1,1), enddate = Date(2000,1,1))
+            @test size(location) == (414, 9)
             @test_throws ArgumentError("N7 is not a valid weather station. For a complete list of valid stations run `cdo_stations(CDO_token::AbstractString)`.") cdo_stations(cdo_token, "N7")
         end
         @testset "Endpoint: Data" begin
