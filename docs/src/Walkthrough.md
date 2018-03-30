@@ -6,7 +6,6 @@ After installing the package one can call it in a new session as any other packa
 A good practice is to define the `cdo_token` one intends to use for that session.
 
 ```@example Tutorial
-using DataFrames: head
 using NCEI
 const cdo_token = ENV["cdo_token"]
 # A token has form: r"[A-Za-z]{32}"
@@ -14,9 +13,9 @@ const cdo_token = ENV["cdo_token"]
 
 - Datasets
 
-One should first inspect the data sets available to select the ones the appropriate ones.
-Good information about a data set is its ID which one needs to query data from that dataset,
-the temporal coverage available, and the documentation can be accessed through the uid.
+One should first inspect the datasets available to select the ones the appropriate ones.
+Good information about a dataset is its ID which one needs to query data from that dataset,
+the temporal coverage, and documentation that can be accessed through the uid.
 For example, the daily summaries dataset (GHCND) has uid: C00861. The information for
 this dataset can be accessed at: [https://data.nodc.noaa.gov/cgi-bin/iso?id=gov.noaa.ncdc:C00861](https://data.nodc.noaa.gov/cgi-bin/iso?id=gov.noaa.ncdc:C00861).
 
