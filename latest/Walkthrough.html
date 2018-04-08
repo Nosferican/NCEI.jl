@@ -5,11 +5,11 @@ const cdo_token = ENV[&quot;cdo_token&quot;]
 cdo_datasets(cdo_token)</code></pre><pre><code class="language-none">11×6 DataFrame. Omitted printing of 3 columns
 │ Row │ uid                  │ mindate    │ maxdate    │
 ├─────┼──────────────────────┼────────────┼────────────┤
-│ 1   │ gov.noaa.ncdc:C00861 │ 1763-01-01 │ 2018-03-28 │
-│ 2   │ gov.noaa.ncdc:C00946 │ 1763-01-01 │ 2018-02-01 │
+│ 1   │ gov.noaa.ncdc:C00861 │ 1763-01-01 │ 2018-04-05 │
+│ 2   │ gov.noaa.ncdc:C00946 │ 1763-01-01 │ 2018-03-01 │
 │ 3   │ gov.noaa.ncdc:C00947 │ 1763-01-01 │ 2017-01-01 │
-│ 4   │ gov.noaa.ncdc:C00345 │ 1991-06-05 │ 2018-03-29 │
-│ 5   │ gov.noaa.ncdc:C00708 │ 1994-05-20 │ 2018-03-26 │
+│ 4   │ gov.noaa.ncdc:C00345 │ 1991-06-05 │ 2018-04-06 │
+│ 5   │ gov.noaa.ncdc:C00708 │ 1994-05-20 │ 2018-04-02 │
 │ 6   │ gov.noaa.ncdc:C00821 │ 2010-01-01 │ 2010-01-01 │
 │ 7   │ gov.noaa.ncdc:C00823 │ 2010-01-01 │ 2010-12-31 │
 │ 8   │ gov.noaa.ncdc:C00824 │ 2010-01-01 │ 2010-12-31 │
@@ -23,12 +23,12 @@ cdo_datasets(cdo_token, &quot;GSOY&quot;)</code></pre><pre><code class="language
 cdo_datasets(cdo_token, datatypes = &quot;TOBS&quot;)</code></pre><pre><code class="language-none">1×6 DataFrame. Omitted printing of 2 columns
 │ Row │ uid                  │ mindate    │ maxdate    │ name            │
 ├─────┼──────────────────────┼────────────┼────────────┼─────────────────┤
-│ 1   │ gov.noaa.ncdc:C00861 │ 1763-01-01 │ 2018-03-28 │ Daily Summaries │</code></pre></div><div><pre><code class="language-julia"># Fetch all available datasets with data for a given set of stations
+│ 1   │ gov.noaa.ncdc:C00861 │ 1763-01-01 │ 2018-04-05 │ Daily Summaries │</code></pre></div><div><pre><code class="language-julia"># Fetch all available datasets with data for a given set of stations
 cdo_datasets(cdo_token, stations = &quot;GHCND:USC00010008&quot;)</code></pre><pre><code class="language-none">6×6 DataFrame. Omitted printing of 3 columns
 │ Row │ uid                  │ mindate    │ maxdate    │
 ├─────┼──────────────────────┼────────────┼────────────┤
-│ 1   │ gov.noaa.ncdc:C00861 │ 1763-01-01 │ 2018-03-28 │
-│ 2   │ gov.noaa.ncdc:C00946 │ 1763-01-01 │ 2018-02-01 │
+│ 1   │ gov.noaa.ncdc:C00861 │ 1763-01-01 │ 2018-04-05 │
+│ 2   │ gov.noaa.ncdc:C00946 │ 1763-01-01 │ 2018-03-01 │
 │ 3   │ gov.noaa.ncdc:C00947 │ 1763-01-01 │ 2017-01-01 │
 │ 4   │ gov.noaa.ncdc:C00821 │ 2010-01-01 │ 2010-01-01 │
 │ 5   │ gov.noaa.ncdc:C00823 │ 2010-01-01 │ 2010-12-31 │
@@ -62,7 +62,7 @@ head(cdo_datatypes(cdo_token))</code></pre><pre><code class="language-none">6×5
 │ 2   │ 1965-01-01 │ 2005-12-31 │
 │ 3   │ 1994-02-01 │ 1996-05-28 │
 │ 4   │ 1965-01-01 │ 2005-12-31 │
-│ 5   │ 1991-06-05 │ 2018-03-29 │
+│ 5   │ 1991-06-05 │ 2018-04-06 │
 │ 6   │ 2010-01-01 │ 2010-01-01 │</code></pre></div><div><pre><code class="language-julia"># Fetch more information about the ACMH data type id
 cdo_datatypes(cdo_token, &quot;ACMH&quot;)</code></pre><pre><code class="language-none">1×4 DataFrame
 │ Row │ mindate    │ maxdate    │ datacoverage │ id   │
@@ -71,7 +71,7 @@ cdo_datatypes(cdo_token, &quot;ACMH&quot;)</code></pre><pre><code class="languag
 head(cdo_datatypes(cdo_token, datacategories = &quot;TEMP&quot;))</code></pre><pre><code class="language-none">6×5 DataFrame. Omitted printing of 3 columns
 │ Row │ mindate    │ maxdate    │
 ├─────┼────────────┼────────────┤
-│ 1   │ 1763-01-01 │ 2018-02-01 │
+│ 1   │ 1763-01-01 │ 2018-03-01 │
 │ 2   │ 1863-05-04 │ 2018-03-03 │
 │ 3   │ 1863-05-04 │ 2018-03-02 │
 │ 4   │ 2010-01-01 │ 2010-12-31 │
@@ -80,10 +80,10 @@ head(cdo_datatypes(cdo_token, datacategories = &quot;TEMP&quot;))</code></pre><p
 head(cdo_datatypes(cdo_token, stations = [&quot;COOP:310090&quot;, &quot;COOP:310184&quot;, &quot;COOP:310212&quot;]))</code></pre><pre><code class="language-none">6×5 DataFrame. Omitted printing of 3 columns
 │ Row │ mindate    │ maxdate    │
 ├─────┼────────────┼────────────┤
-│ 1   │ 1763-01-01 │ 2018-02-01 │
-│ 2   │ 1781-01-01 │ 2018-02-01 │
+│ 1   │ 1763-01-01 │ 2018-03-01 │
+│ 2   │ 1781-01-01 │ 2018-03-01 │
 │ 3   │ 1781-01-01 │ 2017-05-01 │
-│ 4   │ 1781-01-01 │ 2018-02-01 │
+│ 4   │ 1781-01-01 │ 2018-03-01 │
 │ 5   │ 1888-12-01 │ 2015-11-01 │
 │ 6   │ 1888-06-01 │ 2015-11-01 │</code></pre></div><ul><li>Location Categories</li></ul><p>We must identify the spatial constraints of the search and that can be accomplished at various levels (e.g., State vs Zip code).</p><div><pre><code class="language-julia"># Fetch all available location categories
 head(cdo_locationcategories(cdo_token))</code></pre><pre><code class="language-none">6×2 DataFrame
@@ -111,43 +111,43 @@ head(cdo_locationcategories(cdo_token, startdate = Date(&quot;1970-01-01&quot;))
 head(cdo_locations(cdo_token))</code></pre><pre><code class="language-none">6×5 DataFrame
 │ Row │ mindate    │ maxdate    │ name          │ datacoverage │ id            │
 ├─────┼────────────┼────────────┼───────────────┼──────────────┼───────────────┤
-│ 1   │ 1983-01-01 │ 2018-03-26 │ Abu Dhabi, AE │ 1.0          │ CITY:AE000001 │
-│ 2   │ 1944-03-01 │ 2018-03-26 │ Ajman, AE     │ 0.9993       │ CITY:AE000002 │
-│ 3   │ 1944-03-01 │ 2018-03-26 │ Dubai, AE     │ 0.9993       │ CITY:AE000003 │
-│ 4   │ 1944-03-01 │ 2018-03-26 │ Sharjah, AE   │ 0.9993       │ CITY:AE000006 │
-│ 5   │ 1966-03-02 │ 2018-03-26 │ Kabul, AF     │ 0.9969       │ CITY:AF000007 │
-│ 6   │ 1973-01-02 │ 2018-03-26 │ Kandahar, AF  │ 0.8304       │ CITY:AF000008 │</code></pre></div><div><pre><code class="language-julia"># Fetch more information about location id FIPS:37
+│ 1   │ 1983-01-01 │ 2018-04-03 │ Abu Dhabi, AE │ 1.0          │ CITY:AE000001 │
+│ 2   │ 1944-03-01 │ 2018-04-03 │ Ajman, AE     │ 0.9993       │ CITY:AE000002 │
+│ 3   │ 1944-03-01 │ 2018-04-03 │ Dubai, AE     │ 0.9993       │ CITY:AE000003 │
+│ 4   │ 1944-03-01 │ 2018-04-03 │ Sharjah, AE   │ 0.9993       │ CITY:AE000006 │
+│ 5   │ 1966-03-02 │ 2018-04-03 │ Kabul, AF     │ 0.9969       │ CITY:AF000007 │
+│ 6   │ 1973-01-02 │ 2018-04-03 │ Kandahar, AF  │ 0.8304       │ CITY:AF000008 │</code></pre></div><div><pre><code class="language-julia"># Fetch more information about location id FIPS:37
 cdo_locations(cdo_token, &quot;FIPS:37&quot;)</code></pre><pre><code class="language-none">1×5 DataFrame
 │ Row │ mindate    │ maxdate    │ name           │ datacoverage │ id      │
 ├─────┼────────────┼────────────┼────────────────┼──────────────┼─────────┤
-│ 1   │ 1869-03-01 │ 2018-03-29 │ North Carolina │ 1.0          │ FIPS:37 │</code></pre></div><div><pre><code class="language-julia"># Fetch available locations for the GHCND (Daily Summaries) dataset
+│ 1   │ 1869-03-01 │ 2018-04-06 │ North Carolina │ 1.0          │ FIPS:37 │</code></pre></div><div><pre><code class="language-julia"># Fetch available locations for the GHCND (Daily Summaries) dataset
 head(cdo_locations(cdo_token, datasets = &quot;GHCND&quot;))</code></pre><pre><code class="language-none">6×5 DataFrame
 │ Row │ mindate    │ maxdate    │ name          │ datacoverage │ id            │
 ├─────┼────────────┼────────────┼───────────────┼──────────────┼───────────────┤
-│ 1   │ 1983-01-02 │ 2018-03-26 │ Abu Dhabi, AE │ 0.9977       │ CITY:AE000001 │
-│ 2   │ 1944-03-20 │ 2018-03-26 │ Ajman, AE     │ 0.9993       │ CITY:AE000002 │
-│ 3   │ 1944-03-20 │ 2018-03-26 │ Dubai, AE     │ 0.9993       │ CITY:AE000003 │
-│ 4   │ 1944-03-20 │ 2018-03-26 │ Sharjah, AE   │ 0.9993       │ CITY:AE000006 │
-│ 5   │ 1966-03-02 │ 2018-03-26 │ Kabul, AF     │ 0.55         │ CITY:AF000007 │
-│ 6   │ 1973-01-02 │ 2018-03-26 │ Kandahar, AF  │ 0.3705       │ CITY:AF000008 │</code></pre></div><div><pre><code class="language-julia"># Fetch all U.S. States
+│ 1   │ 1983-01-02 │ 2018-04-03 │ Abu Dhabi, AE │ 0.9977       │ CITY:AE000001 │
+│ 2   │ 1944-03-20 │ 2018-04-03 │ Ajman, AE     │ 0.9993       │ CITY:AE000002 │
+│ 3   │ 1944-03-20 │ 2018-04-03 │ Dubai, AE     │ 0.9993       │ CITY:AE000003 │
+│ 4   │ 1944-03-20 │ 2018-04-03 │ Sharjah, AE   │ 0.9993       │ CITY:AE000006 │
+│ 5   │ 1966-03-02 │ 2018-04-03 │ Kabul, AF     │ 0.5501       │ CITY:AF000007 │
+│ 6   │ 1973-01-02 │ 2018-04-03 │ Kandahar, AF  │ 0.3708       │ CITY:AF000008 │</code></pre></div><div><pre><code class="language-julia"># Fetch all U.S. States
 head(cdo_locations(cdo_token, locationcategories = &quot;ST&quot;))</code></pre><pre><code class="language-none">6×5 DataFrame
 │ Row │ mindate    │ maxdate    │ name       │ datacoverage │ id      │
 ├─────┼────────────┼────────────┼────────────┼──────────────┼─────────┤
-│ 1   │ 1888-02-01 │ 2018-03-29 │ Alabama    │ 1.0          │ FIPS:01 │
-│ 2   │ 1893-09-01 │ 2018-03-29 │ Alaska     │ 1.0          │ FIPS:02 │
-│ 3   │ 1867-08-01 │ 2018-03-29 │ Arizona    │ 1.0          │ FIPS:04 │
-│ 4   │ 1872-02-01 │ 2018-03-29 │ Arkansas   │ 1.0          │ FIPS:05 │
-│ 5   │ 1850-10-01 │ 2018-03-29 │ California │ 1.0          │ FIPS:06 │
-│ 6   │ 1852-10-01 │ 2018-03-29 │ Colorado   │ 1.0          │ FIPS:08 │</code></pre></div><ul><li>Stations</li></ul><p>Lastly, one can obtain the relevant stations and verify their spatial information, temporal coverage, and data quality. To select from feasible weather stations one can use packages such as <code>Distances.jl</code> to obtain the nearest acceptable weather station to the desired location.</p><div><pre><code class="language-julia"># Fetch a list of stations that support a given set of data types
+│ 1   │ 1888-02-01 │ 2018-04-06 │ Alabama    │ 1.0          │ FIPS:01 │
+│ 2   │ 1893-09-01 │ 2018-04-06 │ Alaska     │ 1.0          │ FIPS:02 │
+│ 3   │ 1867-08-01 │ 2018-04-06 │ Arizona    │ 1.0          │ FIPS:04 │
+│ 4   │ 1872-02-01 │ 2018-04-06 │ Arkansas   │ 1.0          │ FIPS:05 │
+│ 5   │ 1850-10-01 │ 2018-04-06 │ California │ 1.0          │ FIPS:06 │
+│ 6   │ 1852-10-01 │ 2018-04-06 │ Colorado   │ 1.0          │ FIPS:08 │</code></pre></div><ul><li>Stations</li></ul><p>Lastly, one can obtain the relevant stations and verify their spatial information, temporal coverage, and data quality. To select from feasible weather stations one can use packages such as <code>Distances.jl</code> to obtain the nearest acceptable weather station to the desired location.</p><div><pre><code class="language-julia"># Fetch a list of stations that support a given set of data types
 head(cdo_stations(cdo_token, datatypes = [&quot;EMNT&quot;, &quot;EMXT&quot;, &quot;HTMN&quot;]))</code></pre><pre><code class="language-none">6×9 DataFrame. Omitted printing of 5 columns
 │ Row │ elevation │ mindate    │ maxdate    │ latitude │
 ├─────┼───────────┼────────────┼────────────┼──────────┤
-│ 1   │ 34.0      │ 1944-03-01 │ 2018-03-26 │ 25.333   │
-│ 2   │ 10.4      │ 1983-01-01 │ 2018-03-26 │ 25.255   │
-│ 3   │ 26.8      │ 1983-01-01 │ 2018-03-26 │ 24.433   │
-│ 4   │ 24.0      │ 1940-01-01 │ 2018-03-26 │ 36.7167  │
-│ 5   │ 397.0     │ 1892-01-01 │ 2018-03-26 │ 30.5667  │
-│ 6   │ 561.0     │ 1958-10-01 │ 2018-03-26 │ 28.05    │</code></pre></div><div><pre><code class="language-julia"># Fetch all information about the Abbeville AL station specifically
+│ 1   │ 34.0      │ 1944-03-01 │ 2018-04-03 │ 25.333   │
+│ 2   │ 10.4      │ 1983-01-01 │ 2018-04-03 │ 25.255   │
+│ 3   │ 26.8      │ 1983-01-01 │ 2018-04-03 │ 24.433   │
+│ 4   │ 24.0      │ 1940-01-01 │ 2018-04-03 │ 36.7167  │
+│ 5   │ 397.0     │ 1892-01-01 │ 2018-04-03 │ 30.5667  │
+│ 6   │ 561.0     │ 1958-10-01 │ 2018-04-03 │ 28.05    │</code></pre></div><div><pre><code class="language-julia"># Fetch all information about the Abbeville AL station specifically
 cdo_stations(cdo_token, &quot;COOP:010008&quot;)</code></pre><pre><code class="language-none">1×9 DataFrame. Omitted printing of 4 columns
 │ Row │ elevation │ mindate    │ maxdate    │ latitude │ name             │
 ├─────┼───────────┼────────────┼────────────┼──────────┼──────────────────┤
