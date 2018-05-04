@@ -11,6 +11,7 @@ makedocs(
 )
 
 deploydocs(
+    julia = "nightly",
     deps = Deps.pip("pygments", "mkdocs"),
     repo = "github.com/Nosferican/NCEI.jl.git",
     target = "build",
