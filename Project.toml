@@ -1,4 +1,4 @@
-authors = ["José Bayoán Santiago Calderón <naoyabpr@gmail.com>"
+authors = ["José Bayoán Santiago Calderón <naoyabpr@gmail.com>"]
 license = "MIT"
 repository = "https://github.com/Nosferican/NCEI.jl.git"
 description = "Interface for the National Centers for Environmental Information (NCEI) API"
