@@ -1,3 +1,5 @@
+using Pkg
+Pkg.add("NCEI")
 using NCEI
 using Test: @test, @test_throws, @testset
 
