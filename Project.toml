@@ -1,6 +1,6 @@
 authors = ["José Bayoán Santiago Calderón <naoyabpr@gmail.com>"]
 license = "MIT"
-repository = "https://github.com/Nosferican/NCEI.jl.git"
+# repository = "https://github.com/Nosferican/NCEI.jl.git"
 description = "Interface for the National Centers for Environmental Information (NCEI) API"
 keywords = "API, Interfact, NOAA, Weather, Climate, Data, NCEI"
 name = "NCEI"
