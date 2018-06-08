@@ -7,9 +7,6 @@ name = "NCEI"
 uuid = "19dd4a66-6b26-11e8-08dc-2b4f91869c0a"
 version = "1.0.3"
 
-[compat]
-julia = "0.7-alpha"
-
 [deps]
 Dates = "ade2ca70-3891-5945-98fb-dc099432e06a"
 DataFrames = "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"
