@@ -3,7 +3,7 @@ language: julia
 os:
   - linux
 julia:
-  - 0.7-alpha
+  - 0.7.0-alpha.0
 notifications:
   email: false
 git:
