@@ -18,6 +18,10 @@ using LazyJSON.PropertyDicts: get
 import Base: names, parse
 
 # Code from Reexport.jl
+"""
+    @reexport(ex::Expr)
+Reexports the package (e.g., `@reexport using PkgA`).
+"""
 macro reexport(ex)
     isa(ex, Expr) && (ex.head == :module ||
                       ex.head == :using ||
