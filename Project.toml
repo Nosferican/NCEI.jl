@@ -4,8 +4,11 @@ repository = "https://github.com/Nosferican/NCEI.jl.git"
 description = "Interface for the National Centers for Environmental Information (NCEI) API"
 keywords = ["API", "Interface", "NOAA", "Weather", "Climate", "Data", "NCEI"]
 name = "NCEI"
-uuid = "19dd4a66-6b26-11e8-08dc-2b4f91869c0a"
+uuid = "1f554e9c-ddc6-5d78-a4ef-ff7defcf835d"
 version = "1.0.3"
+
+[compat]
+julia = "0.7"
 
 [deps]
 Dates = "ade2ca70-3891-5945-98fb-dc099432e06a"
