@@ -1,3 +1,6 @@
+using Pkg
+Pkg.build("NCEI")
+
 using NCEI
 using Test: @test, @test_throws, @testset
 
