@@ -10,3 +10,8 @@ Interface for the National Centers for Environmental Information (NCEI) API
 [![Build Status](https://travis-ci.org/Nosferican/NCEI.jl.svg?branch=master)](https://travis-ci.org/Nosferican/NCEI.jl)
 [![codecov](https://codecov.io/gh/Nosferican/NCEI.jl/branch/master/graph/badge.svg)](https://codecov.io/gh/Nosferican/NCEI.jl)
 [![DOI](https://zenodo.org/badge/125773261.svg)](https://zenodo.org/badge/latestdoi/125773261)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FNosferican%2FNCEI.jl.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2FNosferican%2FNCEI.jl?ref=badge_shield)
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FNosferican%2FNCEI.jl.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2FNosferican%2FNCEI.jl?ref=badge_large)
