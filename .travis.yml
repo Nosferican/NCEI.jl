@@ -19,5 +19,5 @@ after_success:
   # push coverage results to Codecov
   - julia -e 'cd(Pkg.dir("NCEI")); Pkg.add("Coverage"); using Coverage; Codecov.submit(Codecov.process_folder())'
   # Documentation
-  - julia -e 'Pkg.add("Documenter")'
+  - julia -e 'ps=Pkg.PackageSpec(name="Documenter", version="0.19"); Pkg.add(ps); Pkg.pin(ps)'
   - julia --depwarn=no -e 'cd(Pkg.dir("NCEI")); include(joinpath("docs", "make.jl"))'
