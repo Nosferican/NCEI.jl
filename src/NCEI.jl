@@ -4,22 +4,19 @@
 The `NCEI` module provides an interface to the National Centers of Environmental
 Information API. The Climate Data Online API is fully supported.
 
-Please see the documenation for more information.
+Please see the documentation for more information.
 """
 module NCEI
 
 using Dates: Day, Date, DateTime, TimeType, today, Year
 using DataFrames: DataFrame
 using HTTP: request
-using LazyJSON: value # Needs to be run first in MacOS for some reason
+using LazyJSON: value
 using LazyJSON.PropertyDicts: get
-using Reexport: @reexport
 
-import Base: names, parse
+import Base: parse
 
-@reexport using DataFrames
-
-include.(["Endpoint.jl", "API.jl"])
+foreach(include, ["Endpoint.jl", "API.jl"])
 
 export
     Date,

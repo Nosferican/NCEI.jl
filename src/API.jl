@@ -1,3 +1,12 @@
+using Dates: Day, Date, DateTime, TimeType, today, Year
+using DataFrames: DataFrame
+using HTTP: request
+using LazyJSON: value # Needs to be run first in MacOS for some reason
+using LazyJSON.PropertyDicts: get
+using Reexport: @reexport
+
+import Base: names, parse
+
 # Data
 """
     cdo_data(CDO_token::AbstractString, dataset::AbstractString, startdate::Date, enddate::Date;
@@ -20,7 +29,7 @@ function cdo_data(CDO_token::AbstractString, dataset::AbstractString,
     isempty(datatypes) || isvalid_datatypes(datatypes) || throw(CDO_NonValidDataTypes)
     isempty(locations) || isvalid_locations(locations) || throw(CDO_NonValidLocations)
     isempty(stations) || isvalid_stations(stations) || throw(CDO_NonValidStations)
-    return parse(CDO_Data(CDO_token, dataset, startdate, enddate, datatypes, locations, stations, metric))
+    parse(CDO_Data(CDO_token, dataset, startdate, enddate, datatypes, locations, stations, metric))
 end
 
 # Data Categories
@@ -30,7 +39,7 @@ end
                        datasets::Union{AbstractString, AbstractVector{<:AbstractString}} = "",
                        locations::Union{AbstractString, AbstractVector{<:AbstractString}} = "",
                        stations::Union{AbstractString, AbstractVector{<:AbstractString}} = "",
-                       startdate::Date = Date("0001-01-01"),
+                       startdate::Date = Date(1, 1, 1),
                        enddate::Date = today())
 
 For obtaining a CDO_token: [Request Web Services Token](https://www.ncdc.noaa.gov/cdo-web/token)
@@ -41,19 +50,19 @@ function cdo_datacategories(CDO_token::AbstractString, datacategory::AbstractStr
     isvalid_cdotoken(CDO_token) || throw(CDO_NonValidToken)
     output = parse(CDO_DataCategory(CDO_token, datacategory))
     isa(output, Exception) && throw(output)
-    return output
+    output
 end
 function cdo_datacategories(CDO_token::AbstractString;
                             datasets::Union{AbstractString, AbstractVector{<:AbstractString}} = "",
                             locations::Union{AbstractString, AbstractVector{<:AbstractString}} = "",
                             stations::Union{AbstractString, AbstractVector{<:AbstractString}} = "",
-                            startdate::Date = Date("0001-01-01"),
+                            startdate::Date = Date(1, 1, 1),
                             enddate::Date = today())
     isvalid_cdotoken(CDO_token) || throw(CDO_NonValidToken)
     isempty(datasets) || isvalid_datatypes(datasets) || throw(CDO_NonValidDatasets)
     isempty(locations) || isvalid_locations(locations) || throw(CDO_NonValidLocations)
     isempty(stations) || isvalid_stations(stations) || throw(CDO_NonValidStations)
-    return parse(CDO_DataCategories(CDO_token, datasets, locations, stations, startdate, enddate))
+    parse(CDO_DataCategories(CDO_token, datasets, locations, stations, startdate, enddate))
 end
 
 # Datasets
@@ -63,7 +72,7 @@ end
                 datatypes::Union{AbstractString, AbstractVector{<:AbstractString}} = "",
                 locations::Union{AbstractString, AbstractVector{<:AbstractString}} = "",
                 stations::Union{AbstractString, AbstractVector{<:AbstractString}} = "",
-                startdate::Date = Date("0001-01-01"),
+                startdate::Date = Date(1, 1, 1),
                 enddate::Date = today())
 
 For obtaining a CDO_token: [Request Web Services Token](https://www.ncdc.noaa.gov/cdo-web/token)
@@ -74,19 +83,19 @@ function cdo_datasets(CDO_token::AbstractString, dataset::AbstractString)
     isvalid_cdotoken(CDO_token) || throw(CDO_NonValidToken)
     output = parse(CDO_Dataset(CDO_token, dataset))
     isa(output, Exception) && throw(output)
-    return output
+    output
 end
 function cdo_datasets(CDO_token::AbstractString;
                       datatypes::Union{AbstractString, AbstractVector{<:AbstractString}} = "",
                       locations::Union{AbstractString, AbstractVector{<:AbstractString}} = "",
                       stations::Union{AbstractString, AbstractVector{<:AbstractString}} = "",
-                      startdate::Date = Date("0001-01-01"),
+                      startdate::Date = Date(1, 1, 1),
                       enddate::Date = today())
     isvalid_cdotoken(CDO_token) || throw(CDO_NonValidToken)
     isempty(datatypes) || isvalid_datatypes(datatypes) || throw(CDO_NonValidDataTypes)
     isempty(locations) || isvalid_locations(locations) || throw(CDO_NonValidLocations)
     isempty(stations) || isvalid_stations(stations) || throw(CDO_NonValidStations)
-    return parse(CDO_Datasets(CDO_token, datatypes, locations, stations, startdate, enddate))
+    parse(CDO_Datasets(CDO_token, datatypes, locations, stations, startdate, enddate))
 end
 
 # Data Types
@@ -97,7 +106,7 @@ end
                   datacategories::Union{AbstractString, AbstractVector{<:AbstractString}} = "",
                   locations::Union{AbstractString, AbstractVector{<:AbstractString}} = "",
                   stations::Union{AbstractString, AbstractVector{<:AbstractString}} = "",
-                  startdate::Date = Date("0001-01-01"),
+                  startdate::Date = Date(1, 1, 1),
                   enddate::Date = today())
 
 For obtaining a CDO_token: [Request Web Services Token](https://www.ncdc.noaa.gov/cdo-web/token)
@@ -108,21 +117,21 @@ function cdo_datatypes(CDO_token::AbstractString, datatype::AbstractString)
     isvalid_cdotoken(CDO_token) || throw(CDO_NonValidToken)
     output = parse(CDO_DataType(CDO_token, datatype))
     isa(output, Exception) && throw(output)
-    return output
+    output
 end
 function cdo_datatypes(CDO_token::AbstractString;
                        datasets::Union{AbstractString, AbstractVector{<:AbstractString}} = "",
                        datacategories::Union{AbstractString, AbstractVector{<:AbstractString}} = "",
                        locations::Union{AbstractString, AbstractVector{<:AbstractString}} = "",
                        stations::Union{AbstractString, AbstractVector{<:AbstractString}} = "",
-                       startdate::Date = Date("0001-01-01"),
+                       startdate::Date = Date(1, 1, 1),
                        enddate::Date = today())
     isvalid_cdotoken(CDO_token) || throw(CDO_NonValidToken)
     isempty(datasets) || isvalid_datatypes(datasets) || throw(CDO_NonValidDatasets)
     isempty(datacategories) || isvalid_datacategories(datacategories) || throw(CDO_NonValidDataCategories)
     isempty(locations) || isvalid_locations(locations) || throw(CDO_NonValidLocations)
     isempty(stations) || isvalid_stations(stations) || throw(CDO_NonValidStations)
-    return parse(CDO_DataTypes(CDO_token, datasets, datacategories, locations, stations, startdate, enddate))
+    parse(CDO_DataTypes(CDO_token, datasets, datacategories, locations, stations, startdate, enddate))
 end
 
 # Location Categories
@@ -130,7 +139,7 @@ end
     cdo_locationcategories(CDO_token::AbstractString, locationcategory::AbstractString)
     cdo_locationcategories(CDO_token::AbstractString;
                            datasets::Union{AbstractString, AbstractVector{<:AbstractString}} = "",
-                           startdate::Date = Date("0001-01-01"),
+                           startdate::Date = Date(1, 1, 1),
                            enddate::Date = today())
 
 For obtaining a CDO_token: [Request Web Services Token](https://www.ncdc.noaa.gov/cdo-web/token)
@@ -141,15 +150,15 @@ function cdo_locationcategories(CDO_token::AbstractString, locationcategory::Abs
     isvalid_cdotoken(CDO_token) || throw(CDO_NonValidToken)
     output = parse(CDO_LocationCategory(CDO_token, locationcategory))
     isa(output, Exception) && throw(output)
-    return output
+    output
 end
 function cdo_locationcategories(CDO_token::AbstractString;
                                 datasets::Union{AbstractString, AbstractVector{<:AbstractString}} = "",
-                                startdate::Date = Date("0001-01-01"),
+                                startdate::Date = Date(1, 1, 1),
                                 enddate::Date = today())
     isvalid_cdotoken(CDO_token) || throw(CDO_NonValidToken)
     isempty(datasets) || isvalid_datatypes(datasets) || throw(CDO_NonValidDatasets)
-    return parse(CDO_LocationCategories(CDO_token, datasets, startdate, enddate))
+    parse(CDO_LocationCategories(CDO_token, datasets, startdate, enddate))
 end
 
 # Locations
@@ -159,7 +168,7 @@ end
                   datasets::Union{AbstractString, AbstractVector{<:AbstractString}} = "",
                   locationcategories::Union{AbstractString, AbstractVector{<:AbstractString}} = "",
                   datacategories::Union{AbstractString, AbstractVector{<:AbstractString}} = "",
-                  startdate::Date = Date("0001-01-01"),
+                  startdate::Date = Date(1, 1, 1),
                   enddate::Date = today())
 
 For obtaining a CDO_token: [Request Web Services Token](https://www.ncdc.noaa.gov/cdo-web/token)
@@ -170,17 +179,17 @@ function cdo_locations(CDO_token::AbstractString, location::AbstractString)
     isvalid_cdotoken(CDO_token) || throw(CDO_NonValidToken)
     output = parse(CDO_Location(CDO_token, location))
     isa(output, Exception) && throw(output)
-    return output
+    output
 end
 function cdo_locations(CDO_token::AbstractString;
                        datasets::Union{AbstractString, AbstractVector{<:AbstractString}} = "",
                        locationcategories::Union{AbstractString, AbstractVector{<:AbstractString}} = "",
                        datacategories::Union{AbstractString, AbstractVector{<:AbstractString}} = "",
-                       startdate::Date = Date("0001-01-01"),
+                       startdate::Date = Date(1, 1, 1),
                        enddate::Date = today())
     isvalid_cdotoken(CDO_token) || throw(CDO_NonValidToken)
     isempty(locationcategories) || isvalid_locationcategories(locationcategories) || throw(CDO_NonValidLocationCategories)
-    return parse(CDO_Locations(CDO_token, datasets, locationcategories, datacategories, startdate, enddate))
+    parse(CDO_Locations(CDO_token, datasets, locationcategories, datacategories, startdate, enddate))
 end
 
 # Stations
@@ -192,7 +201,7 @@ end
                  datacategories::Union{AbstractString, AbstractVector{<:AbstractString}} = "",
                  datatypes::Union{AbstractString, AbstractVector{<:AbstractString}} = "",
                  extent::Union{AbstractVector{<:AbstractFloat}} = Vector{Float64}(),
-                 startdate::Date = Date("0001-01-01"),
+                 startdate::Date = Date(1, 1, 1),
                  enddate::Date = today())
 
 For obtaining a CDO_token: [Request Web Services Token](https://www.ncdc.noaa.gov/cdo-web/token)
@@ -203,7 +212,7 @@ function cdo_stations(CDO_token::AbstractString, station::AbstractString)
     isvalid_cdotoken(CDO_token) || throw(CDO_NonValidToken)
     output = parse(CDO_Station(CDO_token, station))
     isa(output, Exception) && throw(output)
-    return output
+    output
 end
 function cdo_stations(CDO_token::AbstractString;
                       datasets::Union{AbstractString, AbstractVector{<:AbstractString}} = "",
@@ -211,7 +220,7 @@ function cdo_stations(CDO_token::AbstractString;
                       datacategories::Union{AbstractString, AbstractVector{<:AbstractString}} = "",
                       datatypes::Union{AbstractString, AbstractVector{<:AbstractString}} = "",
                       extent::AbstractVector{<:AbstractFloat} = Vector{Float64}(),
-                      startdate::Date = Date("0001-01-01"),
+                      startdate::Date = Date(1, 1, 1),
                       enddate::Date = today())
     isvalid_cdotoken(CDO_token) || throw(CDO_NonValidToken)
     isempty(datasets) || isvalid_datsets(datasets) || throw(CDO_NonValidDatasets)
@@ -219,5 +228,5 @@ function cdo_stations(CDO_token::AbstractString;
     isempty(datacategories) || isvalid_datacategories(datacategories) || throw(CDO_NonValidDataCategories)
     isempty(datatypes) || isvalid_datatypes(datatypes) || throw(CDO_NonValidDataTypes)
     isvalid_extent(extent) || throw(CDO_NonValidExtent)
-    return parse(CDO_Stations(CDO_token, datasets, locations, datacategories, datatypes, extent, startdate, enddate))
+    parse(CDO_Stations(CDO_token, datasets, locations, datacategories, datatypes, extent, startdate, enddate))
 end
