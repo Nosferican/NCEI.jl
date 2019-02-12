@@ -1,7 +1,6 @@
 using Documenter, NCEI
 
-makedocs(modules = [DependenciesParser],
-         sitename = "DependenciesParser.jl",
+makedocs(modules = [NCEI],
          sitename = "NCEI.jl",
          pages = ["index.md",
                   "GettingStarted.md",
