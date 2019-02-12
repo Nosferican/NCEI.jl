@@ -1,12 +1,3 @@
-using Dates: Day, Date, DateTime, TimeType, today, Year
-using DataFrames: DataFrame
-using HTTP: request
-using LazyJSON: value # Needs to be run first in MacOS for some reason
-using LazyJSON.PropertyDicts: get
-using Reexport: @reexport
-
-import Base: names, parse
-
 # Helpers
 id_or_chain(obj::AbstractString, kind::AbstractString) = kind * "id=" * obj * "&"
 id_or_chain(obj::AbstractVector{<:AbstractString}, kind::AbstractString) = reduce(*, kind .* "id=" .* obj .* "&")

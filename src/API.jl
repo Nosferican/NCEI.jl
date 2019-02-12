@@ -1,12 +1,3 @@
-using Dates: Day, Date, DateTime, TimeType, today, Year
-using DataFrames: DataFrame
-using HTTP: request
-using LazyJSON: value # Needs to be run first in MacOS for some reason
-using LazyJSON.PropertyDicts: get
-using Reexport: @reexport
-
-import Base: names, parse
-
 # Data
 """
     cdo_data(CDO_token::AbstractString, dataset::AbstractString, startdate::Date, enddate::Date;
