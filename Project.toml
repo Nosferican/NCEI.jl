@@ -6,7 +6,7 @@ authors = ["José Bayoán Santiago Calderón <naoyabpr@gmail.com>"]
 description = "Interface for the National Centers for Environmental Information (NCEI) API"
 doi = "10.5281/zenodo.1210025"
 repository = "https://github.com/Nosferican/NCEI.jl.git"
-version = "1.0.4"
+version = "1.1.1"
 
 [deps]
 DataFrames = "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"
