@@ -45,7 +45,7 @@ The next step is to find the data categories one might need (e.g., temperature v
 
 ```@example Tutorial
 # Fetch all available data categories
-head(cdo_datacategories(cdo_token))
+cdo_datacategories(cdo_token)
 ```
 
 ```@example Tutorial
@@ -55,7 +55,7 @@ cdo_datacategories(cdo_token, "ANNAGR")
 
 ```@example Tutorial
 # Fetch data categories for a given set of locations
-head(cdo_datacategories(cdo_token, locations = ["FIPS:37", "CITY:US390029"]))
+cdo_datacategories(cdo_token, locations = ["FIPS:37", "CITY:US390029"])
 ```
 
 - Data Types
@@ -64,7 +64,7 @@ Now we can inspect which variables we want to query from what data set.
 
 ```@example Tutorial
 # Fetch available data types
-head(cdo_datatypes(cdo_token))
+cdo_datatypes(cdo_token)
 ```
 
 ```@example Tutorial
@@ -74,12 +74,12 @@ cdo_datatypes(cdo_token, "ACMH")
 
 ```@example Tutorial
 # Fetch data types with the air temperature data category
-head(cdo_datatypes(cdo_token, datacategories = "TEMP"))
+cdo_datatypes(cdo_token, datacategories = "TEMP")
 ```
 
 ```@example Tutorial
 # Fetch data types that support a given set of stations
-head(cdo_datatypes(cdo_token, stations = ["COOP:310090", "COOP:310184", "COOP:310212"]))
+cdo_datatypes(cdo_token, stations = ["COOP:310090", "COOP:310184", "COOP:310212"])
 ```
 
 - Location Categories
@@ -89,7 +89,7 @@ at various levels (e.g., State vs Zip code).
 
 ```@example Tutorial
 # Fetch all available location categories
-head(cdo_locationcategories(cdo_token))
+cdo_locationcategories(cdo_token)
 ```
 
 ```@example Tutorial
@@ -99,7 +99,7 @@ cdo_locationcategories(cdo_token, "CLIM_REG")
 
 ```@example Tutorial
 # Fetch available location categories that have data after 1970
-head(cdo_locationcategories(cdo_token, startdate = Date("1970-01-01")))
+cdo_locationcategories(cdo_token, startdate = Date(1970, 1, 1))
 ```
 
 - Locations
@@ -108,7 +108,7 @@ Now select which locations are of interest.
 
 ```@example Tutorial
 # Fetch available locations
-head(cdo_locations(cdo_token))
+cdo_locations(cdo_token)
 ```
 
 ```@example Tutorial
@@ -118,12 +118,12 @@ cdo_locations(cdo_token, "FIPS:37")
 
 ```@example Tutorial
 # Fetch available locations for the GHCND (Daily Summaries) dataset
-head(cdo_locations(cdo_token, datasets = "GHCND"))
+cdo_locations(cdo_token, datasets = "GHCND")
 ```
 
 ```@example Tutorial
 # Fetch all U.S. States
-head(cdo_locations(cdo_token, locationcategories = "ST"))
+cdo_locations(cdo_token, locationcategories = "ST")
 ```
 
 - Stations
@@ -135,7 +135,7 @@ to the desired location.
 
 ```@example Tutorial
 # Fetch a list of stations that support a given set of data types
-head(cdo_stations(cdo_token, datatypes = ["EMNT", "EMXT", "HTMN"]))
+cdo_stations(cdo_token, datatypes = ["EMNT", "EMXT", "HTMN"])
 ```
 
 ```@example Tutorial
@@ -145,7 +145,7 @@ cdo_stations(cdo_token, "COOP:010008")
 
 ```@example Tutorial
 # Fetch all the stations in North Carolina, US (FIPS:37)
-head(cdo_stations(cdo_token, locations = "FIPS:37"))
+cdo_stations(cdo_token, locations = "FIPS:37")
 ```
 
 - Data
@@ -157,18 +157,16 @@ Read the documentation to interpret the various flags under the attributes colum
 
 ```@example Tutorial
 # Fetch data from the GHCND dataset (Daily Summaries) for zip code 28801, May 1st of 2010
-head(cdo_data(cdo_token, "GHCND", Date("2010-05-01"), Date("2010-05-01"),
-              locations = "ZIP:28801"))
+cdo_data(cdo_token, "GHCND", Date(2010, 5, 1), Date(2010, 5, 1), locations = "ZIP:28801")
 ```
 
 ```@example Tutorial
 # Fetch data from the PRECIP_15 dataset (Precipitation 15 Minute) for COOP station 010008, for May of 2010 with metric units
-head(cdo_data(cdo_token, "PRECIP_15", Date("2010-05-01"), Date("2010-05-31"),
-              stations = "COOP:010008"))
+cdo_data(cdo_token, "PRECIP_15", Date(2010, 5, 1), Date(2010, 5, 31), stations = "COOP:010008")
 ```
 
 ```@example Tutorial
 # Fetch data from the GSOM dataset (Global Summary of the Month) for GHCND station USC00010008, for May of 2010 with standard units
-head(cdo_data(cdo_token, "GSOM", Date("2010-05-01"), Date("2010-05-31"),
-              stations = "GHCND:USC00010008", metric = false))
+cdo_data(cdo_token, "GSOM", Date(2010, 5, 1), Date(2010, 5, 31),
+         stations = "GHCND:USC00010008", metric = false)
 ```

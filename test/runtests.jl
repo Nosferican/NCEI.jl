@@ -1,7 +1,8 @@
 using NCEI
 using Test: @test, @test_throws, @testset
 
-cdo_token = "ijrAfEVJJAefHdruUsTkjRyWLqSZpBhY" # Dedicated CDO token for testing
+const cdo_token = "ijrAfEVJJAefHdruUsTkjRyWLqSZpBhY" # Dedicated CDO token for testing
+
 @testset "Testing NCEI" begin
     @testset "Endpoint: Data Categories" begin
     all_datacategories = cdo_datacategories(cdo_token)
@@ -30,7 +31,8 @@ cdo_token = "ijrAfEVJJAefHdruUsTkjRyWLqSZpBhY" # Dedicated CDO token for testing
         @test size(one_datatype) == (1, 4)
         datacategory = cdo_datatypes(cdo_token, datacategories = "TEMP")
         @test size(datacategory) == (59, 5)
-        datacategories = cdo_datatypes(cdo_token, stations = ["COOP:310090", "COOP:310184", "COOP:310212"])
+        datacategories = cdo_datatypes(cdo_token,
+                                       stations = ["COOP:310090", "COOP:310184", "COOP:310212"])
         @test size(datacategories) == (21, 5)
         @test_throws ArgumentError("N7 is not a valid data type. For a complete list of valid data types run `cdo_datatypes(CDO_token::AbstractString)`.") cdo_datatypes(cdo_token, "N7")
     end
@@ -42,7 +44,9 @@ cdo_token = "ijrAfEVJJAefHdruUsTkjRyWLqSZpBhY" # Dedicated CDO token for testing
         @test_throws ArgumentError("N7 is not a valid location category. For a complete list of valid location categories run `cdo_locationcategories(CDO_token::AbstractString)`.") cdo_locationcategories(cdo_token, "N7")
     end
     @testset "Endpoint: Locations" begin
-        all_locations = cdo_locations(cdo_token, datasets = "GHCND", locationcategories = "ST")
+        all_locations = cdo_locations(cdo_token,
+                                      datasets = "GHCND",
+                                      locationcategories = "ST")
         @test size(all_locations) == (51, 5)
         one_location = cdo_locations(cdo_token, "FIPS:37")
         @test size(one_location) == (1, 5)
@@ -51,20 +55,45 @@ cdo_token = "ijrAfEVJJAefHdruUsTkjRyWLqSZpBhY" # Dedicated CDO token for testing
     @testset "Endpoint: Stations" begin
         station = cdo_stations(cdo_token, "COOP:010008")
         @test size(station) == (1, 9)
-        location = cdo_stations(cdo_token, locations = "FIPS:37", startdate = Date(2000,1,1), enddate = Date(2000,1,1))
-        @test size(location) == (414, 9)
+        location = cdo_stations(cdo_token,
+                                locations = "FIPS:37",
+                                startdate = Date(2000, 1, 1),
+                                enddate = Date(2000, 1, 1))
+        @test size(location) == (417, 9)
         @test_throws ArgumentError("N7 is not a valid weather station. For a complete list of valid stations run `cdo_stations(CDO_token::AbstractString)`.") cdo_stations(cdo_token, "N7")
     end
     @testset "Endpoint: Data" begin
-        GHCND = cdo_data(cdo_token, "GHCND", Date("2010-05-01"), Date("2010-05-01"), locations = "ZIP:28801")
+        GHCND = cdo_data(cdo_token,
+                         "GHCND",
+                         Date(2010, 5, 1),
+                         Date(2010, 5, 1),
+                         locations = "ZIP:28801")
         @test size(GHCND) == (8, 5)
-        station = cdo_data(cdo_token, "PRECIP_15", Date("2010-05-01"), Date("2010-05-31"), stations = "COOP:010008")
+        station = cdo_data(cdo_token,
+                           "PRECIP_15",
+                           Date(2010, 5, 1),
+                           Date(2010, 5, 31),
+                           stations = "COOP:010008")
         @test size(station) == (63, 5)
-        GSOM = cdo_data(cdo_token, "GSOM", Date("2010-05-01"), Date("2010-05-31"), stations = "GHCND:USC00010008")
+        GSOM = cdo_data(cdo_token,
+                        "GSOM",
+                        Date(2010, 5, 1),
+                        Date(2010, 5, 31),
+                        stations = "GHCND:USC00010008")
         @test size(GSOM) == (10, 5)
-        Yearly = cdo_data(cdo_token, "GHCND", Date(2000,1,1), Date(2002,12,31), datatypes = "TAVG", locations = "ZIP:91711")
+        Yearly = cdo_data(cdo_token,
+                          "GHCND",
+                          Date(2000, 1, 1),
+                          Date(2002, 12, 31),
+                          datatypes = "TAVG",
+                          locations = "ZIP:91711")
         @test size(Yearly) == (1093, 5)
-        Decade = cdo_data(cdo_token, "GSOY", Date(1990,1,1), Date(2001,12,31), datatypes = "TAVG", locations = "ZIP:91711")
+        Decade = cdo_data(cdo_token,
+                          "GSOY",
+                          Date(1990, 1, 1),
+                          Date(2001, 12, 31),
+                          datatypes = "TAVG",
+                          locations = "ZIP:91711")
         @test size(Decade) == (3, 5)
     end
     @testset "Are these valid arguments?" begin

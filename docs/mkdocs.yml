@@ -3,12 +3,10 @@ repo_url:         https://github.com/Nosferican/NCEI.jl
 site_description: NCEI Docs
 site_author:      José Bayoán Santiago Calderón
 
-theme: readthedocs
+theme: material
 
 extra_css:
   - assets/Documenter.css
-
-docs_dir: 'build'
 
 pages:
   - Home: index.md
