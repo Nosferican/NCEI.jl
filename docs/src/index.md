@@ -11,6 +11,8 @@ Please be sure to cite properly the datasets used from the National Centers for 
 Please cite this package using the provided [![DOI](https://zenodo.org/badge/125773261.svg)](https://zenodo.org/badge/latestdoi/125773261).
 
 ```@contents
-Pages = ["GettingStarted.md",
-				 "Walkthrough.md"]
+Pages = [
+	"GettingStarted.md",
+	"Walkthrough.md"
+]
 ```

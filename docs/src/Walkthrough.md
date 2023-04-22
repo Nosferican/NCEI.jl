@@ -167,6 +167,8 @@ cdo_data(cdo_token, "PRECIP_15", Date(2010, 5, 1), Date(2010, 5, 31), stations =
 
 ```@example Tutorial
 # Fetch data from the GSOM dataset (Global Summary of the Month) for GHCND station USC00010008, for May of 2010 with standard units
-cdo_data(cdo_token, "GSOM", Date(2010, 5, 1), Date(2010, 5, 31),
-         stations = "GHCND:USC00010008", metric = false)
+cdo_data(
+    cdo_token, "GSOM", Date(2010, 5, 1), Date(2010, 5, 31),
+    stations = "GHCND:USC00010008", metric = false
+)
 ```

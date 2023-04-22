@@ -366,8 +366,8 @@ If an empty JSON indicates an ArgumentError this one is throw.
 function skeleton(endpoint::CDO_Single, jsontext::AbstractString)
     jsontext == "{}" && return exception(endpoint)
     # output = schema(endpoint)
-    DataFrame([schema(endpoint, value(jsontext))])
-    # foreach(x -> push!(output, schema(endpoint, x)), value(jsontext))
+    DataFrame([schema(endpoint, JSON3.read(jsontext))])
+    # foreach(x -> push!(output, schema(endpoint, x)), JSON3.read(jsontext))
     # DataFrame(output)
 end
 
@@ -388,7 +388,7 @@ function parse(obj::CDO_Meta)
     response = request("GET", url, header)
     jsontext = String(response.body)
     jsontext == "{}" && return DataFrame(Ts, Ns, 0)
-    json = value(jsontext)
+    json = JSON3.read(jsontext)
     Count = Int64(json["metadata"]["resultset"]["count"])
     urls = string.(url[1:end - 1], (1:1000:Count)[2:end])
     output = schema(obj)
@@ -396,7 +396,7 @@ function parse(obj::CDO_Meta)
     for suburl ∈ urls
         response = request("GET", suburl, header)
         jsontext = String(response.body)
-        foreach(x -> push!(output, schema(obj, x)), value(jsontext)["results"])
+        foreach(x -> push!(output, schema(obj, x)), JSON3.read(jsontext)["results"])
     end
     DataFrame(output)
 end
@@ -408,14 +408,14 @@ function parse(obj::CDO_Data)
         response = request("GET", url, header)
         jsontext = String(response.body)
         jsontext == "{}" && return DataFrame(output)
-        json = value(jsontext)
+        json = JSON3.read(jsontext)
         Count = Int64(json["metadata"]["resultset"]["count"])
         urls = url[1:end - 1] .* string.(1:1000:Count)[2:end] .* "&includemetadata=false"
         foreach(x -> push!(output, schema(obj, x)), json["results"])
         for suburl ∈ urls
             response = request("GET", suburl, header)
             jsontext = String(response.body)
-            foreach(x -> push!(output, schema(obj, x)), value(jsontext)["results"])
+            foreach(x -> push!(output, schema(obj, x)), JSON3.read(jsontext)["results"])
         end
     end
     DataFrame(output)

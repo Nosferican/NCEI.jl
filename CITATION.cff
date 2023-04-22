@@ -1,0 +1,11 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+authors:
+- family-names: "Santiago Calderón"
+  given-names: "José Bayoán"
+  orcid: "https://orcid.org/0000-0002-8406-6175"
+title: "NCEI.jl: Interface for the National Centers for Environmental Information (NCEI) API"
+version: 1.0.0
+doi: 10.5281/zenodo.1210010
+date-released: 2018-03-29
+url: "https://github.com/Nosferican/NCEI.jl"

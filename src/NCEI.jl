@@ -11,12 +11,13 @@ module NCEI
 using Dates: Day, Date, DateTime, TimeType, today, Year
 using DataFrames: DataFrame
 using HTTP: request
-using LazyJSON: value
-using LazyJSON.PropertyDicts: get
-
+using JSON3
 import Base: parse
 
-foreach(include, ["Endpoint.jl", "API.jl"])
+foreach(
+    include,
+    ["Endpoint.jl", "API.jl"]
+)
 
 export
     Date,
